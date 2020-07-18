@@ -1,0 +1,58 @@
+POST http://localhost:5001/event-finder-875e8/us-central1/api/auth/login
+Content-Type: application/json
+
+{
+    "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc2MjNlMTBhMDQ1MTQwZjFjZmQ0YmUwNDY2Y2Y4MDM1MmI1OWY4MWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZXZlbnQtZmluZGVyLTg3NWU4IiwiYXVkIjoiZXZlbnQtZmluZGVyLTg3NWU4IiwiYXV0aF90aW1lIjoxNTk0MDQ5MDM5LCJ1c2VyX2lkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsInN1YiI6InVSUXFpMlhzM1VPZGlFR2o3aU42d21zaUw5MjIiLCJpYXQiOjE1OTQwNDkwMzksImV4cCI6MTU5NDA1MjYzOSwiZW1haWwiOiJlcmljQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJlcmljQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.hE8gwlF0uFo3qZ9MuaRiz9MceFxSz3HULevuCLABVWNtas3rgbVkcW_9od_IkeareCgCiZeAT1yDmul-7KiMtCrFvmw_mZWRpjYQrJPyExRMqJdnlcliELJeXstZPbuWyC-QWYltDXbOk6BiQQryfvUr784fVm9zzykInvo8n3PfISuaL4dewhB5k7Ma3JJUcTqoPv5CwwhzArLGj5Dgj3MKv3T07z8VjgLoqzyDYov0eXcc43YykdFMDw9WDKguhW0yAhi2XcwIekBGb-8OyiFXkG5MyRbNNXbqGPx9KKrZo049PlBlTjrK7jv4o9zdrIzOiw2x9Ldc_8ZwQVgtWQ"
+}
+
+###
+POST http://localhost:5001/event-finder-875e8/us-central1/api/auth/token
+# Cookie: refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJ1UlFxaTJYczNVT2RpRUdqN2lONndtc2lMOTIyIiwiaWF0IjoxNTk0MDQ5Mjg5LCJleHAiOjE1OTQwNTAxODl9.4wtGP27e6aDGGH9LMCtZDvHBdlrPRWrgtDyC0Xp8LxQ; Path=/
+
+###
+GET http://localhost:5001/event-finder-875e8/us-central1/api/bookmarks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTAwMTYwMiwiZXhwIjoxNTk1MDE5NjAyfQ.6-Ix7XdF-sJPWVcpI5ndw3cwmZnKgadjeJ1v83oCKLw
+
+###
+POST http://localhost:5001/event-finder-875e8/us-central1/api/bookmarks
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTAwMTYwMiwiZXhwIjoxNTk1MDE5NjAyfQ.6-Ix7XdF-sJPWVcpI5ndw3cwmZnKgadjeJ1v83oCKLw
+
+{
+  "event": {
+  "id": "vvG17ZpC2_G-Z2",
+  "name": "The Yarmouth Drive-In on Cape Cod Movie: Honey, I Shrunk the Kids",
+  "image": "https://s1.ticketm.net/dam/c/523/f2bada7e-b9e4-488b-b6dc-b188330dc523_105571_TABLET_LANDSCAPE_16_9.jpg",
+  "date": {
+    "month": "Jul",
+    "day": "15",
+    "week": "Wednesday"
+  },
+  "description": "No info for this event",
+  "duration": {
+    "startTime": "5:00: PM",
+    "endTime": "N/A"
+  },
+  "category": "Film",
+  "location": {
+    "address": "669 Route 28 West  Yarmouth, Massachusetts 02673",
+    "city": "Yarmouth",
+    "state": "Massachusetts",
+    "postalCode": "02673",
+    "coordinates": {
+      "longitude": "-70.224995",
+      "latitude": "41.648751"
+    }
+  },
+  "priceRanges": {
+    "minPrice": 10,
+    "maxPrice": 30
+  },
+  "url": "https://www.ticketmaster.com/the-yarmouth-drivein-on-cape-cod-yarmouth-massachusetts-07-15-2020/event/010058E3D932100F"
+}
+}
+
+###
+DELETE  http://localhost:5001/event-finder-875e8/us-central1/api/bookmarks/vvG17ZpC2_G-Z2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTAwMTYwMiwiZXhwIjoxNTk1MDE5NjAyfQ.6-Ix7XdF-sJPWVcpI5ndw3cwmZnKgadjeJ1v83oCKLw

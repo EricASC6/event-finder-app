@@ -1,0 +1,290 @@
+/* Event Card */
+.card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-radius: 5px;
+}
+
+.cardVertical {
+  flex-direction: row;
+}
+
+.cardHorizontal {
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.cardLink {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+}
+
+.image {
+  --width: 5.25rem;
+  --height: 5.25rem;
+  width: var(--width);
+  height: var(--height);
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.cardHorizontal .image {
+  --width: 100%;
+  --height: 10rem;
+}
+
+.body {
+  padding: 0.75rem 0.5rem;
+  width: 100%;
+}
+
+.cardHorizontal .body {
+  padding: 0.75rem 0;
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.city {
+  color: var(--light-gray);
+  font-size: 0.75rem;
+  font-weight: normal;
+}
+
+.name {
+  font-size: 0.9rem;
+  padding-bottom: 0.25rem;
+  color: var(--black);
+}
+
+.cardBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bottomLeft {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.startTime {
+  position: relative;
+  color: var(--main);
+  font-size: 0.6rem;
+  margin-left: 0.25rem;
+  padding-left: 0.33rem;
+}
+
+.startTime::before {
+  position: absolute;
+  content: "";
+  height: 3px;
+  width: 3px;
+  background: var(--main);
+  border-radius: 50%;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.eventDate {
+  color: var(--light-gray);
+  font-size: 0.6rem;
+}
+
+/* Event Card */
+
+/* Event Details */
+.detailsPage {
+  width: 100%;
+  position: relative;
+}
+
+.backBtn {
+  position: absolute;
+  left: var(--container-padding);
+  top: var(--container-padding);
+}
+
+.detailsImage {
+  width: 100%;
+}
+
+.detailsContainer {
+  padding-top: 1rem;
+  padding-bottom: calc(var(--nav-height) * 2);
+}
+
+.detailsHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.detailsName {
+  font-size: 1.25rem;
+  color: var(--black);
+}
+
+.bookmark {
+  width: 36px;
+}
+
+.detailsBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.detailsTime {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dateBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background: var(--light-white);
+  padding: 0.75rem;
+  margin-right: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+.detailsMonth {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--main);
+}
+
+.detailsDay {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--dark-gray);
+}
+
+.detailsWeek {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.detailsDuration {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--main);
+}
+
+.calendarBtn {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: var(--white);
+  font-size: 0.65rem;
+  background: var(--main);
+  padding: 0.5rem;
+  border-radius: 20px;
+  border: none;
+}
+
+.calendarIcon {
+  padding-left: 0.1rem;
+}
+
+.detailsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 1rem;
+}
+
+.detailsHeader {
+  color: var(--dark-gray);
+  font-size: 1.1rem;
+  padding-bottom: 0.5rem;
+}
+
+.detailsContent {
+  color: var(--light-gray);
+  font-size: 0.85rem;
+  line-height: 165%;
+  padding-bottom: 0.5rem;
+}
+
+.priceContainer {
+  position: fixed;
+  left: 0;
+  bottom: var(--nav-height);
+  width: 100%;
+  z-index: 2;
+  height: var(--nav-height);
+  background: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 -4px 4px 0 #b7b7b73a;
+}
+
+.priceBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: var(--white);
+}
+
+.priceHead {
+  color: var(--dark-gray);
+  font-size: 1rem;
+}
+
+.priceRange {
+  color: var(--main);
+  font-size: 0.9rem;
+}
+
+.attendBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: var(--white);
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: var(--green);
+  height: 2.5rem;
+  border: none;
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  outline: none;
+}
+
+.ticketIcon {
+  margin-right: 0.25rem;
+}
+
+/* Event Details */
+
+/* Calendar Card */
+.calendarCard {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-radius: 5px;
+}
+/* Calendar Card */

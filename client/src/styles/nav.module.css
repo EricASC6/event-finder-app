@@ -1,0 +1,49 @@
+.nav {
+  background: var(--main);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: var(--nav-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.navItem {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0 0.35rem;
+}
+/* 
+.active {
+  background: green;
+} */
+
+.navItem::before {
+  position: absolute;
+  content: "";
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  transform: translateX(-50%);
+  transition: width 250ms ease-in;
+}
+
+.navItem.active::before {
+  background: var(--white);
+  width: 100%;
+}

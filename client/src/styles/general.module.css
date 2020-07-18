@@ -1,0 +1,223 @@
+/* Container  */
+.container {
+  padding: 0 var(--container-padding);
+  width: 100%;
+}
+/* Container  */
+
+/* Category  */
+.category {
+  width: auto;
+  padding: 0.33em 0.65em;
+  font-size: 0.6em;
+  font-weight: 500;
+  color: var(--white);
+  text-align: center;
+  background: var(--main);
+  border-radius: 50px;
+}
+
+.smallCategory {
+  font-size: 1rem;
+}
+
+.mediumCategory {
+  font-size: 1.25rem;
+}
+/* Category  */
+
+/* Map */
+.map {
+  width: 100%;
+  min-height: 250px;
+}
+/* Map */
+
+/* Back Button */
+.backBtn {
+  text-decoration: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Back Button */
+
+/* Search Bar */
+.searchContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: var(--light-bg);
+  height: 55px;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+}
+
+.searchBtn {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.searchInput {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  padding-left: 0.85rem;
+  color: var(--light-gray);
+  font-size: 1rem;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  font-family: "Poppins", sans-serif;
+  color: var(--light-gray);
+}
+/* Search Bar */
+
+/* Selector */
+.selector {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  margin-bottom: 1.55rem;
+}
+
+.selectorItem {
+  position: relative;
+  font-size: 0.85rem;
+  margin-right: 0.85rem;
+  color: var(--light-gray);
+  cursor: pointer;
+  transition-property: color, font-weight;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+.selectorItem::before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 350ms ease-out;
+}
+
+.selectorItem.active {
+  color: var(--main);
+  font-weight: 500;
+}
+
+.selectorItem.active::before {
+  background: var(--main);
+  width: 100%;
+}
+
+/* Selector */
+
+/* Scroll View */
+.scrollView {
+  display: flex;
+  height: auto;
+  min-width: 100%;
+  overflow: scroll;
+  margin: 0.75rem 0;
+}
+
+/* Direct children selector */
+.scrollView > div {
+  min-width: 250px;
+  margin-right: 1rem;
+}
+
+.scrollView > div:first-of-type {
+  margin-left: 1rem;
+}
+
+.scrollView > div:last-of-type {
+  position: relative;
+}
+.scrollView > div:last-of-type::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 1rem;
+  right: -1rem;
+  top: 0;
+}
+
+/* Scroll View */
+
+/* Form */
+.form {
+  width: 100%;
+  max-width: 500px;
+}
+
+.formField {
+  margin-bottom: 1.25rem;
+}
+
+.formLabel {
+  display: inline-block;
+  color: var(--dark-gray);
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.formInputContainer {
+  position: relative;
+}
+
+.formLeadingIcon {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+}
+
+.formInput {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  height: 55px;
+  color: var(--light-gray);
+  font-size: 0.9rem;
+  padding: 0 0.75rem;
+  padding-left: 2.5rem;
+  background: var(--light-bg);
+  border-radius: 4px;
+  border: none;
+  outline: none;
+}
+/* Form */
+
+/* Logo */
+.logo {
+  text-decoration: none;
+  font-size: 1.75rem;
+  color: var(--main);
+  font-weight: 600;
+}
+/* Logo */
+
+/* Popup */
+.popupWrapper {
+  position: absolute;
+  padding: 1rem;
+  border-radius: 5px;
+  background: var(--white);
+  box-shadow: 0 0 4px 0 #b7b7b74b;
+  z-index: 100;
+}
+/* Popup */
