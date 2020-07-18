@@ -20,6 +20,10 @@ const createQueryString = (req, res, next) => {
 router.use(createQueryString);
 
 router.get("/", async (req, res) => {
+  console.log("Yooo");
+
+  console.log(req.baseUrl);
+
   const apiEndpoint = `${TICKET_MASTER_API}/events${req.queryString}`;
   const response = await fetch(apiEndpoint);
   const json = await response.json();

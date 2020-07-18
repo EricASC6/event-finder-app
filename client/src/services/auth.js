@@ -14,7 +14,7 @@ export const getAccessToken = () => token;
 
 export const fetchAccessToken = () => {
   const tokenEndpoint =
-    "http://localhost:5001/event-finder-875e8/us-central1/api/auth/token";
+    "http://localhost:8888/.netlify/functions/api/auth/token";
 
   return http
     .post(tokenEndpoint)
@@ -23,7 +23,7 @@ export const fetchAccessToken = () => {
 
 export const fetchAccessTokenFromIdToken = (idToken) => {
   const tokenEndpoint =
-    "http://localhost:5001/event-finder-875e8/us-central1/api/auth/login";
+    "http://localhost:8888/.netlify/functions/api/auth/login";
 
   return http
     .post(tokenEndpoint, { id_token: idToken })
@@ -34,7 +34,7 @@ export const deleteTokenAfterLogout = () => {
   token = null;
 
   const logoutEndpoint =
-    "http://localhost:5001/event-finder-875e8/us-central1/api/auth/logout";
+    "http://localhost:8888/.netlify/functions/api/auth/logout";
 
   return http.post(logoutEndpoint);
 };
