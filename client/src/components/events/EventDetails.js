@@ -1,5 +1,4 @@
 import React from "react";
-import EventInfo from "../../models/EventInfo";
 import Container from "../general/Container";
 import Category from "../general/Category";
 import Map from "../general/Map";
@@ -7,7 +6,6 @@ import BackButton from "../general/BackButton";
 import { ReactComponent as BoomarkIcon } from "../../icons/bookmark.svg";
 import { ReactComponent as CalendarPlusIcon } from "../../icons/calendar-plus.svg";
 import { ReactComponent as TicketIcon } from "../../icons/ticket.svg";
-import propTypes from "prop-types";
 import eventsStyles from "../../styles/events.module.css";
 
 const EventDetails = ({ event }) => {
@@ -95,10 +93,6 @@ const EventDetails = ({ event }) => {
       </Container>
     </React.Fragment>
   );
-};
-
-EventDetails.propTypes = {
-  event: propTypes.instanceOf(EventInfo),
 };
 
 export default EventDetails;

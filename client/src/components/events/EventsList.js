@@ -1,6 +1,5 @@
 import React from "react";
 import EventCard from "./EventCard";
-import { useBookmark } from "../../hooks/bookmark.hook";
 
 const EventsList = ({
   horizontal = false,
@@ -8,8 +7,6 @@ const EventsList = ({
   error = null,
   events,
 }) => {
-  const { bookmarkEvent, unbookmarkEvent } = useBookmark();
-
   // console.log(events);
 
   if (loading) return <div>Loading!!</div>;
@@ -24,8 +21,7 @@ const EventsList = ({
           horizontal={horizontal}
           event={event}
           onBookmark={(event) => {
-            if (!event.bookmarked) bookmarkEvent(event);
-            else unbookmarkEvent(event.id);
+            console.log(event);
           }}
         />
       ))}

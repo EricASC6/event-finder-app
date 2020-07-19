@@ -1,10 +1,7 @@
 import { useReducer } from "react";
 import { useFetch } from "./fetch.hook";
-import { useBookmark } from "./bookmark.hook";
-import { KEYS } from "../keys/keys";
 import { combineApiWithQueryParams } from "../utils/utils.api";
 import { EVENT_CATEGORY } from "../enums/eventsCategory";
-import EventInfo from "../models/EventInfo";
 import moment from "moment";
 import geohash from "ngeohash";
 
@@ -33,27 +30,15 @@ export const useEventsOptions = (
 
 export const useEvents = (options = {}) => {
   const api = combineApiWithQueryParams(
-    `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${KEYS.TICKET_MASTER}`,
+    "http://localhost:8888/.netlify/functions/api/events?",
     options
   );
 
-  const { map: bookmarksMap } = useBookmarkedEvents();
   const { loading, error, response } = useFetch(api);
 
-  const events = (response && response?._embedded?.events) || [];
-  // console.log(events);
+  const events = (response && response.events) || [];
 
-  const eventInfos = events.map((event) => {
-    const eventInfo =
-      bookmarksMap[event.id] ||
-      EventInfo.transformTMApiDataIntoEventInfo(event);
-
-    return eventInfo;
-  });
-
-  // console.log({ eventInfos });
-
-  return { loading, error, events: eventInfos || [] };
+  return { loading, error, events };
 };
 
 export const useEventsByCategory = (category) => {
@@ -85,18 +70,9 @@ export const useEventsByLocation = (lng, lat) => {
 };
 
 export const useEvent = (id) => {
-  const api = `https://app.ticketmaster.com/discovery/v2/events/${id}.json?apikey=${KEYS.TICKET_MASTER}`;
+  const api = `https://app.ticketmaster.com/discovery/v2/events/${id}.json?apikey=7Y47X2uiPCSAp6XAJZG684wI2GzOJHUT`;
 
   const { loading, error, response: event } = useFetch(api);
 
   return { loading, error, event };
-};
-
-export const useBookmarkedEvents = () => {
-  const { bookmarks } = useBookmark();
-
-  return {
-    map: bookmarks,
-    array: Object.values(bookmarks),
-  };
 };

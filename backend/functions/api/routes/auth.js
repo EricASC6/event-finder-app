@@ -30,6 +30,13 @@ router.post("/login", async (req, res) => {
     const accessToken = await jwt.createToken(payload, ACCESS_TOKEN_SECRET, {
       expiresIn: "5h",
     });
+
+    console.log({ accessToken });
+
+    const {
+      payload: { exp },
+    } = jwt.decodeToken(accessToken);
+
     const refreshToken = await jwt.createToken(payload, REFRESH_TOKEN_SECRET, {
       expiresIn: "30 days",
     });
@@ -45,7 +52,10 @@ router.post("/login", async (req, res) => {
     res.cookie("refresh_token", refreshToken);
 
     return res.json({
-      access_token: accessToken,
+      access_token: {
+        token: accessToken,
+        exp,
+      },
     });
   } catch (err) {
     console.error(err);
@@ -86,6 +96,11 @@ router.post("/token", async (req, res) => {
     const newAccessToken = await jwt.createToken(payload, ACCESS_TOKEN_SECRET, {
       expiresIn: "5h",
     });
+
+    const {
+      payload: { exp },
+    } = jwt.decodeToken(newAccessToken);
+
     const newRefreshToken = await jwt.createToken(
       payload,
       REFRESH_TOKEN_SECRET,
@@ -104,9 +119,14 @@ router.post("/token", async (req, res) => {
     res.cookie("refresh_token", newRefreshToken);
 
     return res.json({
-      access_token: newAccessToken,
+      access_token: {
+        token: newAccessToken,
+        exp,
+      },
     });
   } catch (err) {
+    console.log({ err });
+
     // decode the token (don't verify it)
     const decodedToken = jwt.decodeToken(refresh_token);
 
@@ -135,6 +155,8 @@ router.post("/logout", async (req, res) => {
   const { refresh_token } = req.cookies;
 
   console.log({ refresh_token });
+
+  if (!refresh_token) return res.json({ message: "logged out" });
 
   const decodedToken = jwt.decodeToken(refresh_token);
 

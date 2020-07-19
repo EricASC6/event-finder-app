@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AuthComponent from "../components/auth/AuthComponent";
 import Page from "../components/layout/Page";
 import Container from "../components/general/Container";
 import SearchBar from "../components/general/SearchBar";

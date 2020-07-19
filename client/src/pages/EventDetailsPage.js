@@ -3,7 +3,6 @@ import Page from "../components/layout/Page";
 import EventDetails from "../components/events/EventDetails";
 import { useParams } from "react-router-dom";
 import { useEvent } from "../hooks/events.hook";
-import EventInfo from "../models/EventInfo";
 import eventStyles from "../styles/events.module.css";
 
 const EventDetailsPage = () => {
@@ -24,16 +23,10 @@ const EventDetailsPage = () => {
       </Page>
     );
 
-  console.log(event);
-
-  const eventInfo = EventInfo.transformTMApiDataIntoEventInfo(event);
-
-  console.log(eventInfo);
-
   return (
     <Page>
-      <div className={eventStyles.detailsPage} id={eventInfo.id}>
-        <EventDetails event={eventInfo} />
+      <div className={eventStyles.detailsPage} id={event.id}>
+        <EventDetails event={event} />
       </div>
     </Page>
   );

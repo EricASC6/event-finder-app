@@ -23,8 +23,8 @@ export const AuthProvider = ({ children }) => {
       // check if user is initially authenticated
       const user = await getInitialAuthState();
       console.log({ user });
-      console.log({ id_token: await auth.currentUser.getIdToken() });
       if (user) {
+        console.log({ id_token: await auth.currentUser.getIdToken() });
         // if yes, get access token from server
         const access_token = await fetchAccessToken();
         console.log({ access_token });

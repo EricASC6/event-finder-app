@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fetch = require("node-fetch").default;
+const eventController = require("../controllers/event");
 const queryParams = require("../services/queryParams");
 
 const TICKET_MASTER_API_KEY = require("../keys/keys").TICKET_MASTER;
@@ -28,8 +29,15 @@ router.get("/", async (req, res) => {
   const response = await fetch(apiEndpoint);
   const json = await response.json();
 
-  res.json({
-    events: json,
+  const tmEvents = json._embedded.events;
+  const events = tmEvents.map((event) =>
+    eventController.tranformTicketMasterEvent(event)
+  );
+
+  console.log({ events });
+
+  return res.json({
+    events,
   });
 });
 
