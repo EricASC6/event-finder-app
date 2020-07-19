@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../../hooks/auth.hook";
 import { Redirect } from "react-router-dom";
-import { getAccessToken } from "../../services/auth";
+import { AuthService } from "../../services/auth";
 
 const AuthComponent = ({ children, successRedirect, failureRedirect }) => {
   const auth = useAuth();
@@ -9,7 +9,7 @@ const AuthComponent = ({ children, successRedirect, failureRedirect }) => {
 
   if (loading) return <div>Loading!!!!</div>;
 
-  const authenticated = Boolean(user && getAccessToken());
+  const authenticated = Boolean(user && AuthService.getAccessToken());
 
   if (authenticated && successRedirect)
     return <Redirect to={successRedirect} />;

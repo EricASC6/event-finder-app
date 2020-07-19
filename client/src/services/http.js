@@ -3,7 +3,7 @@ import _ from "lodash";
 
 export default class Http {
   constructor(configs, withCache = false) {
-    this.configs = Object.assign(
+    this.configs = _.merge(
       {
         headers: {
           "Content-Type": "application/json",

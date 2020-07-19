@@ -6,6 +6,7 @@ import { ReactComponent as PasswordIcon } from "../../icons/password.svg";
 import ErrorContainer from "../general/ErrorContainer";
 import { Link } from "react-router-dom";
 import GoogleOauthBtn from "./GoogleOauthBtn";
+import { history } from "../../services/history";
 import credentialsStyles from "../../styles/credentials.module.css";
 
 const Login = ({ login, signInWithGoogle }) => {
@@ -16,9 +17,11 @@ const Login = ({ login, signInWithGoogle }) => {
   return (
     <Form
       onSubmit={() => {
-        login(email, password).catch((err) => {
-          setError(err.message);
-        });
+        login(email, password)
+          .then(() => history.push("/"))
+          .catch((err) => {
+            setError(err.message);
+          });
       }}
     >
       <FormField

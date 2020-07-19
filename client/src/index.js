@@ -4,12 +4,13 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import AppProvider from "./providers/AppProvider";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { history } from "./services/history";
 
 ReactDOM.render(
   <React.StrictMode>
     <AppProvider>
-      <Router>
+      <Router history={history}>
         <App />
       </Router>
     </AppProvider>

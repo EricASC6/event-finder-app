@@ -1,50 +1,76 @@
 import firebase from "./firebase";
-import Http from "./http";
+import { TokenService } from "./token";
 
 const auth = firebase.auth();
-const http = new Http({ credentials: "include" });
 
 let token = null;
 
-export const storeAccessToken = (_token) => {
-  token = _token;
+const getAccessToken = () => token;
+
+const login = async (email, password) => {
+  try {
+    const userCredential = await auth.signInWithEmailAndPassword(
+      email,
+      password
+    );
+
+    const idToken = await userCredential.user.getIdToken();
+    const accessToken = await TokenService.fetchAccessTokenFromIdToken(idToken);
+
+    console.log({ accessToken });
+    token = accessToken;
+
+    return userCredential.user;
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const getAccessToken = () => token;
+const signup = async (email, password) => {
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    const idToken = await userCredential.user.getIdToken();
+    const accessToken = await TokenService.fetchAccessTokenFromIdToken(idToken);
 
-export const fetchAccessToken = () => {
-  const tokenEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/token";
+    console.log({ accessToken });
+    token = accessToken;
 
-  return http
-    .post(tokenEndpoint)
-    .then((response) => response.data.access_token || null);
+    return userCredential.user;
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const fetchAccessTokenFromIdToken = (idToken) => {
-  const tokenEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/login";
+const silentRefresh = async () => {
+  try {
+    const accessToken = await TokenService.fetchAccessToken();
 
-  return http
-    .post(tokenEndpoint, { id_token: idToken })
-    .then((response) => response.data.access_token || null);
+    console.log({ accessToken });
+
+    token = accessToken;
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const deleteTokenAfterLogout = () => {
+const logout = async () => {
   token = null;
 
-  const logoutEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/logout";
+  await Promise.all([
+    auth.signOut(),
+    TokenService.removeRefreshTokenAfterLogout(),
+  ]);
 
-  return http.post(logoutEndpoint);
+  return;
 };
 
-export const getInitialAuthState = () => {
-  return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      resolve(user);
-
-      unsubscribe();
-    });
-  });
+export const AuthService = {
+  login,
+  signup,
+  silentRefresh,
+  logout,
+  getAccessToken,
 };
