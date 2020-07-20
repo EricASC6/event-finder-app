@@ -4,12 +4,12 @@ import FormField from "../general/FormField";
 import { ReactComponent as EmailIcon } from "../../icons/email.svg";
 import { ReactComponent as PasswordIcon } from "../../icons/password.svg";
 import ErrorContainer from "../general/ErrorContainer";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import GoogleOauthBtn from "./GoogleOauthBtn";
-import { history } from "../../services/history";
 import credentialsStyles from "../../styles/credentials.module.css";
 
 const Login = ({ login, signInWithGoogle }) => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);

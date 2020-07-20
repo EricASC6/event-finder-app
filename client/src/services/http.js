@@ -96,3 +96,9 @@ export default class Http {
     return this.makeRequest(url, combinedConfigs);
   }
 }
+
+class AuthHttp extends Http {
+  constructor(configs, withCache) {
+    super(configs, withCache);
+  }
+}

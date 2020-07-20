@@ -50,7 +50,11 @@ const silentRefresh = async () => {
 
     console.log({ accessToken });
 
+    if (!accessToken) throw new Error("Missing Access Token");
+
     token = accessToken;
+
+    return token;
   } catch (err) {
     throw err;
   }

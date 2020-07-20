@@ -5,9 +5,9 @@ import { AuthService } from "../../services/auth";
 
 const AuthComponent = ({ children, successRedirect, failureRedirect }) => {
   const auth = useAuth();
-  const { loading, user } = auth;
+  const { loading, tokenLoading, user } = auth;
 
-  if (loading) return <div>Loading!!!!</div>;
+  if (loading || tokenLoading) return <div>Loading!!!!</div>;
 
   const authenticated = Boolean(user && AuthService.getAccessToken());
 

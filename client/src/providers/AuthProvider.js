@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import firebase from "../services/firebase";
 import { AuthService } from "../services/auth";
+import { useHistory } from "react-router-dom";
 
 const auth = firebase.auth();
 
@@ -8,12 +9,17 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const [tokenLoading, setTokenLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     console.log("Mount");
 
-    AuthService.silentRefresh();
+    AuthService.silentRefresh().then(() => {
+      setTokenLoading(false);
+      history.push("/");
+    });
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setLoading(true);
@@ -39,6 +45,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         loading,
+        tokenLoading,
         user,
         signup,
         login,
