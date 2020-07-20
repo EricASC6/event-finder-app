@@ -16,10 +16,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log("Mount");
 
-    AuthService.silentRefresh().then(() => {
-      setTokenLoading(false);
-      history.push("/");
-    });
+    AuthService.silentRefresh()
+      .then(() => history.push("/"))
+      .catch(() => history.push("/login"))
+      .finally(() => setTokenLoading(false));
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setLoading(true);

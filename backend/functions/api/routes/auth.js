@@ -2,13 +2,10 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("../services/jwt");
 const admin = require("../admin/admin");
+const authController = require("../controllers/auth");
 
 const firestore = admin.firestore();
 
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || "123";
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "456";
-
-// router.use(express.json());
 router.post("/login", async (req, res) => {
   console.log({ body: req.body });
 
@@ -19,35 +16,21 @@ router.post("/login", async (req, res) => {
 
   try {
     // validate and get the uid from the decoded id token (jwt)
-    const decodedToken = await admin.auth().verifyIdToken(id_token);
+    const decodedToken = await authController.verifyIdToken(id_token);
     const { uid } = decodedToken;
 
-    const userDoc = await firestore.collection("users").doc(uid).get();
-    const user = userDoc.data();
-
-    const payload = { email: user.email, uid };
-
-    const accessToken = await jwt.createToken(payload, ACCESS_TOKEN_SECRET, {
-      expiresIn: "5h",
-    });
+    const userPayload = await authController.createUserPayloadForJwt(uid);
+    const accessToken = await authController.createAccessTokenForUser(
+      userPayload
+    );
 
     console.log({ accessToken });
 
-    const {
-      payload: { exp },
-    } = jwt.decodeToken(accessToken);
-
-    const refreshToken = await jwt.createToken(payload, REFRESH_TOKEN_SECRET, {
-      expiresIn: "30 days",
-    });
-
-    // get the user document
-    const userRef = firestore.collection("users").doc(uid);
-
-    // add the refresh token to the document
-    await userRef.update({
-      refresh_tokens: admin.firestore.FieldValue.arrayUnion(refreshToken),
-    });
+    const exp = authController.getTokenExpiration(accessToken);
+    const refreshToken = await authController.createRefreshTokenForUser(
+      userPayload
+    );
+    await authController.storeNewRefreshToken(uid, refreshToken);
 
     res.cookie("refresh_token", refreshToken);
 
@@ -75,45 +58,24 @@ router.post("/token", async (req, res) => {
     return res.status(400).json({ error: "Missing refresh token" });
 
   try {
-    const decodedToken = await jwt.verifyToken(
-      refresh_token,
-      REFRESH_TOKEN_SECRET
-    );
-
-    const { uid } = decodedToken;
-
-    const userRef = firestore.collection("users").doc(uid);
-    const userDoc = await userRef.get();
-
-    const user = userDoc.data();
-
-    const validToken = user.refresh_tokens.includes(refresh_token);
+    const validToken = await authController.validateRefreshToken(refresh_token);
 
     if (!validToken) return res.status(400).json({ error: "Invalid Token" });
 
-    const payload = { email: user.email, uid };
+    const { uid } = validToken;
+    const userPayload = await authController.createUserPayloadForJwt(uid);
+    const newAccessToken = await authController.createAccessTokenForUser(
+      userPayload
+    );
+    const exp = authController.getTokenExpiration(newAccessToken);
 
-    const newAccessToken = await jwt.createToken(payload, ACCESS_TOKEN_SECRET, {
-      expiresIn: "5h",
-    });
-
-    const {
-      payload: { exp },
-    } = jwt.decodeToken(newAccessToken);
-
-    const newRefreshToken = await jwt.createToken(
-      payload,
-      REFRESH_TOKEN_SECRET,
-      { expiresIn: "30 days" }
+    const newRefreshToken = await authController.createRefreshTokenForUser(
+      userPayload
     );
 
     await Promise.all([
-      userRef.update({
-        refresh_tokens: admin.firestore.FieldValue.arrayRemove(refresh_token),
-      }),
-      userRef.update({
-        refresh_tokens: admin.firestore.FieldValue.arrayUnion(newRefreshToken),
-      }),
+      authController.revokeRefreshTokenFromUser(uid, refresh_token),
+      authController.storeNewRefreshToken(uid, newRefreshToken),
     ]);
 
     res.cookie("refresh_token", newRefreshToken);
@@ -130,7 +92,7 @@ router.post("/token", async (req, res) => {
     // decode the token (don't verify it)
     const decodedToken = jwt.decodeToken(refresh_token);
 
-    if (decodedToken && decodedToken.uid) {
+    if (decodedToken.uid) {
       const uid = decodedToken.uid;
 
       const userRef = firestore.collection("users").doc(uid);
@@ -139,9 +101,7 @@ router.post("/token", async (req, res) => {
 
       if (user.exists) {
         // remove refresh token from user doc
-        await userRef.update({
-          refresh_tokens: admin.firestore.FieldValue.arrayRemove(refresh_token),
-        });
+        await authController.revokeRefreshTokenFromUser(uid, refresh_token);
       }
     }
 
@@ -166,12 +126,8 @@ router.post("/logout", async (req, res) => {
 
   console.log({ uid });
 
-  const userRef = firestore.collection("users").doc(uid);
-
   try {
-    await userRef.update({
-      refresh_tokens: admin.firestore.FieldValue.arrayRemove(refresh_token),
-    });
+    await authController.revokeRefreshTokenFromUser(uid, refresh_token);
   } catch (err) {
     console.error(err);
   } finally {
