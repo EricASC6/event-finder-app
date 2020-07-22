@@ -1,7 +1,7 @@
 export const combineApiWithQueryParams = (api, params) => {
-  let combined = api;
+  let combined = `${api}?`;
   for (const [key, value] of Object.entries(params)) {
-    combined += `&${key}=${value}`;
+    combined += `${key}=${value}&`;
   }
 
   // encodes url to be safe

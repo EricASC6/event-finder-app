@@ -1,4 +1,5 @@
 import Http from "./http";
+import "jwt";
 
 const http = new Http({ credentials: "include" });
 
@@ -29,8 +30,11 @@ const removeRefreshTokenAfterLogout = () => {
   return http.post(logoutEndpoint).then((res) => console.log(res));
 };
 
+const isExpiredToken = (exp) => new Date().getTime() > exp * 1000;
+
 export const TokenService = {
   fetchAccessToken,
   fetchAccessTokenFromIdToken,
   removeRefreshTokenAfterLogout,
+  isExpiredToken,
 };

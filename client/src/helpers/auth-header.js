@@ -5,5 +5,5 @@ export const authHeader = () => {
   const token = accessToken && accessToken.token;
   const authHeader = token ? `Bearer ${token}` : null;
 
-  return authHeader;
+  return { Authorization: authHeader };
 };
