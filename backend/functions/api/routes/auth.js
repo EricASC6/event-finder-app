@@ -26,7 +26,6 @@ router.post("/login", async (req, res) => {
 
     console.log({ accessToken });
 
-    const exp = authController.getTokenExpiration(accessToken);
     const refreshToken = await authController.createRefreshTokenForUser(
       userPayload
     );
@@ -35,10 +34,7 @@ router.post("/login", async (req, res) => {
     res.cookie("refresh_token", refreshToken);
 
     return res.json({
-      access_token: {
-        token: accessToken,
-        exp,
-      },
+      access_token: accessToken,
     });
   } catch (err) {
     console.error(err);
@@ -67,7 +63,6 @@ router.post("/token", async (req, res) => {
     const newAccessToken = await authController.createAccessTokenForUser(
       userPayload
     );
-    const exp = authController.getTokenExpiration(newAccessToken);
 
     const newRefreshToken = await authController.createRefreshTokenForUser(
       userPayload
@@ -81,10 +76,7 @@ router.post("/token", async (req, res) => {
     res.cookie("refresh_token", newRefreshToken);
 
     return res.json({
-      access_token: {
-        token: newAccessToken,
-        exp,
-      },
+      access_token: newAccessToken,
     });
   } catch (err) {
     console.log({ err });

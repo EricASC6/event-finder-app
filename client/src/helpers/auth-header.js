@@ -1,9 +1,8 @@
 import { AuthService } from "../services/auth";
 
 export const authHeader = () => {
-  const accessToken = AuthService.getAccessToken();
-  const token = accessToken && accessToken.token;
-  const authHeader = token ? `Bearer ${token}` : null;
+  const accessToken = AuthService.credentials.accessToken;
+  const authHeader = accessToken ? `Bearer ${accessToken}` : null;
 
   return { Authorization: authHeader };
 };

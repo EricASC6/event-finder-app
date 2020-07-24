@@ -3,9 +3,18 @@ import { TokenService } from "./token";
 
 const auth = firebase.auth();
 
-let token = null;
+const credentials = {
+  accessToken: null,
+};
 
-const getAccessToken = () => token;
+// Token Service Subscription
+TokenService.subscribe((accessToken) => {
+  console.log("Token change");
+  console.log({ accessToken });
+
+  credentials.accessToken = accessToken;
+});
+// Token Service Subscription
 
 const login = async (email, password) => {
   try {
@@ -18,7 +27,6 @@ const login = async (email, password) => {
     const accessToken = await TokenService.fetchAccessTokenFromIdToken(idToken);
 
     console.log({ accessToken });
-    token = accessToken;
 
     return userCredential.user;
   } catch (err) {
@@ -36,8 +44,6 @@ const signup = async (email, password) => {
     const accessToken = await TokenService.fetchAccessTokenFromIdToken(idToken);
 
     console.log({ accessToken });
-    token = accessToken;
-
     return userCredential.user;
   } catch (err) {
     throw err;
@@ -52,17 +58,13 @@ const silentRefresh = async () => {
 
     if (!accessToken) throw new Error("Missing Access Token");
 
-    token = accessToken;
-
-    return token;
+    return accessToken;
   } catch (err) {
     throw err;
   }
 };
 
 const logout = async () => {
-  token = null;
-
   await Promise.all([
     auth.signOut(),
     TokenService.removeRefreshTokenAfterLogout(),
@@ -76,5 +78,5 @@ export const AuthService = {
   signup,
   silentRefresh,
   logout,
-  getAccessToken,
+  credentials,
 };

@@ -12,6 +12,8 @@ const ExploreEvents = () => {
   const [category, setCategory] = useState(EVENT_CATEGORY.All);
   const { loading, error, events } = useEventsByCategory(category);
 
+  console.log(events);
+
   const categoryEntries = createSelectorEntries(EVENT_CATEGORY);
 
   return (

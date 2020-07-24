@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fetch = require("node-fetch").default;
+const { jwtAuth } = require("../middleware/jwtAuth");
 const eventController = require("../controllers/event");
 const queryParams = require("../services/queryParams");
 
@@ -18,10 +19,13 @@ const createQueryString = (req, res, next) => {
   return next();
 };
 
+router.use(jwtAuth());
 router.use(createQueryString);
 
 router.get("/", async (req, res) => {
   console.log("Yooo");
+
+  console.log({ headers: req.headers });
 
   const apiEndpoint = `${TICKET_MASTER_API}/events${req.queryString}`;
   const response = await fetch(apiEndpoint);

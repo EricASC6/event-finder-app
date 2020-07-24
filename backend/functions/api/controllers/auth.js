@@ -31,17 +31,23 @@ exports.createAccessTokenForUser = (payload) => {
   });
 };
 
+exports.validateAccessToken = async (accessToken) => {
+  try {
+    const decodedToken = await jwt.verifyToken(
+      accessToken,
+      ACCESS_TOKEN_SECRET
+    );
+
+    return decodedToken;
+  } catch (err) {
+    throw err;
+  }
+};
+
 exports.createRefreshTokenForUser = (payload) => {
   return jwt.createToken(payload, REFRESH_TOKEN_SECRET, {
     expiresIn: "30 days",
   });
-};
-
-exports.getTokenExpiration = (token) => {
-  const decodedToken = jwt.decodeToken(token);
-  const { payload = {} } = decodedToken || {};
-  const { exp = null } = payload;
-  return exp;
 };
 
 exports.validateRefreshToken = async (refreshToken) => {

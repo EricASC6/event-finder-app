@@ -1,42 +1,33 @@
-import { useReducer } from "react";
+import { useAsync } from "./async.hook";
 import { useFetch } from "./fetch.hook";
-import { combineApiWithQueryParams } from "../utils/utils.api";
-import { EVENT_CATEGORY } from "../enums/eventsCategory";
+import { useState, useEffect } from "react";
+import { EventsService } from "../services/events";
 import moment from "moment";
 import geohash from "ngeohash";
 
-export const useEventsOptions = (
-  initOptions = { keyword: "", classificationName: EVENT_CATEGORY.All }
-) => {
-  const reducer = (options, action) => {
-    switch (action.type) {
-      case "KEY_WORD": {
-        const { value } = action;
-        return Object.assign({}, options, { keyword: value });
-      }
-      case "CLASSIFICATION_NAME": {
-        const { value } = action;
-        return Object.assign({}, options, { classificationName: value });
-      }
-      default:
-        return options;
-    }
-  };
+export const useEvents = ({
+  classificationName = null,
+  geohash = null,
+  endDateTime = null,
+} = {}) => {
+  const options = { classificationName, geohash, endDateTime };
 
-  const [options, dispatch] = useReducer(reducer, initOptions);
-
-  return { options, dispatch };
-};
-
-export const useEvents = (options = {}) => {
-  const api = combineApiWithQueryParams(
-    "http://localhost:8888/.netlify/functions/api/events?",
-    options
+  const [events, setEvents] = useState([]);
+  const { loading, error, execute } = useAsync(
+    () => EventsService.getEvents(options),
+    false
   );
 
-  const { loading, error, response } = useFetch(api);
+  useEffect(() => {
+    initEvents(options);
+  }, [classificationName, geohash, endDateTime]);
 
-  const events = (response && response.events) || [];
+  const initEvents = (options) =>
+    execute(options).then((evnts) => {
+      console.log("After execute");
+      console.log({ evnts });
+      setEvents(evnts);
+    });
 
   return { loading, error, events };
 };

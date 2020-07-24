@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch } from "react-router-dom";
-import AuthenticatedRoute from "./components/routes/AuthenticatedRoute";
-import UnauthenticatedRoute from "./components/routes/UnauthenticatedRoute";
+import PrivateRoute from "./components/routes/PrivateRoute";
+import PublicRoute from "./components/routes/PublicRoute";
 import Home from "./pages/Home";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import EventSearchPage from "./pages/EventSearchPage";
@@ -14,13 +14,13 @@ const App = () => {
   return (
     <div className="App">
       <Switch>
-        <AuthenticatedRoute exact path="/" component={Home} />
-        <AuthenticatedRoute path="/event/:id" component={EventDetailsPage} />
-        <AuthenticatedRoute path="/search/:query" component={EventSearchPage} />
-        <AuthenticatedRoute path="/bookmark" component={BookmarkedPage} />
-        <AuthenticatedRoute path="/calendar" component={CalendarPage} />
-        <UnauthenticatedRoute path="/signup" component={SignupPage} />
-        <UnauthenticatedRoute path="/login" component={LoginPage} />
+        <PrivateRoute exact path="/" component={Home} />
+        <PrivateRoute path="/event/:id" component={EventDetailsPage} />
+        <PrivateRoute path="/search/:query" component={EventSearchPage} />
+        <PrivateRoute path="/bookmark" component={BookmarkedPage} />
+        <PrivateRoute path="/calendar" component={CalendarPage} />
+        <PublicRoute path="/signup" component={SignupPage} />
+        <PublicRoute path="/login" component={LoginPage} />
       </Switch>
     </div>
   );
