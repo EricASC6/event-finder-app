@@ -7,6 +7,9 @@ const getEvents = async (options = {}) => {
     options
   );
 
+  console.log("event service options ", options);
+  console.log({ api });
+
   try {
     const response = await AuthorizedService.get(api);
     const events = response.data.events;
@@ -16,6 +19,21 @@ const getEvents = async (options = {}) => {
   }
 };
 
+const getEvent = async (eventId) => {
+  const api = `http://localhost:8888/.netlify/functions/api/events/${eventId}`;
+
+  console.log({ api });
+
+  try {
+    const response = await AuthorizedService.get(api);
+    const event = response.data.event;
+    return event;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const EventsService = {
   getEvents,
+  getEvent,
 };

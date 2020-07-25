@@ -18,6 +18,13 @@ app.use(
   })
 );
 app.use("/.netlify/functions/api", router);
+router.use((req, res, next) => {
+  console.log({ query: req.query });
+  console.log({ url: req.url });
+  console.log({ baseUrl: req.baseUrl });
+  console.log({ path: req.path });
+  next();
+});
 
 router.use(express.json());
 router.use(cookieParser());

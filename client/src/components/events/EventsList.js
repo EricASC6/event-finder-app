@@ -6,6 +6,8 @@ const EventsList = ({
   loading = false,
   error = null,
   events,
+  bookmarkEvent = () => {},
+  unbookmarkEvent = () => {},
 }) => {
   // console.log(events);
 
@@ -21,7 +23,8 @@ const EventsList = ({
           horizontal={horizontal}
           event={event}
           onBookmark={(event) => {
-            console.log(event);
+            if (!event.bookmarked) bookmarkEvent(event.id);
+            else unbookmarkEvent(event.id);
           }}
         />
       ))}

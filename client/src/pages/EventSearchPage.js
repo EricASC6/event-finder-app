@@ -7,14 +7,20 @@ import Container from "../components/general/Container";
 
 const EventSearchPage = () => {
   const { query } = useParams();
-  const { loading, error, events } = useEvents({
+  const { loading, error, events, bookmarkEvent, unbookmarkEvent } = useEvents({
     keyword: query,
   });
 
   return (
     <Page>
       <Container type="events-list">
-        <EventsList loading={loading} error={error} events={events} />
+        <EventsList
+          loading={loading}
+          error={error}
+          events={events}
+          bookmarkEvent={bookmarkEvent}
+          unbookmarkEvent={unbookmarkEvent}
+        />
       </Container>
     </Page>
   );

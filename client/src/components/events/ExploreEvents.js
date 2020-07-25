@@ -10,7 +10,13 @@ import Title from "../basics/Title";
 
 const ExploreEvents = () => {
   const [category, setCategory] = useState(EVENT_CATEGORY.All);
-  const { loading, error, events } = useEventsByCategory(category);
+  const {
+    loading,
+    error,
+    events,
+    bookmarkEvent,
+    unbookmarkEvent,
+  } = useEventsByCategory(category);
 
   console.log(events);
 
@@ -24,7 +30,13 @@ const ExploreEvents = () => {
         entries={categoryEntries}
         onChange={(category) => setCategory(category)}
       />
-      <EventsList loading={loading} error={error} events={events} />
+      <EventsList
+        loading={loading}
+        error={error}
+        events={events}
+        bookmarkEvent={bookmarkEvent}
+        unbookmarkEvent={unbookmarkEvent}
+      />
     </Container>
   );
 };

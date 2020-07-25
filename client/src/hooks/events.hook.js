@@ -1,5 +1,4 @@
 import { useAsync } from "./async.hook";
-import { useFetch } from "./fetch.hook";
 import { useState, useEffect } from "react";
 import { EventsService } from "../services/events";
 import moment from "moment";
@@ -9,35 +8,57 @@ export const useEvents = ({
   classificationName = null,
   geohash = null,
   endDateTime = null,
+  keyword = null,
 } = {}) => {
-  const options = { classificationName, geohash, endDateTime };
+  const options = { keyword, classificationName, geohash, endDateTime };
 
   const [events, setEvents] = useState([]);
-  const { loading, error, execute } = useAsync(
-    () => EventsService.getEvents(options),
-    false
-  );
+  const { loading, error, execute: getEvents } = useAsync({
+    fn: (options) => EventsService.getEvents(options),
+    immediate: false,
+    initLoading: true,
+  });
 
   useEffect(() => {
     initEvents(options);
   }, [classificationName, geohash, endDateTime]);
 
   const initEvents = (options) =>
-    execute(options).then((evnts) => {
-      console.log("After execute");
-      console.log({ evnts });
+    getEvents(options).then((evnts) => {
+      // console.log("After execute");
+      // console.log({ evnts });
       setEvents(evnts);
     });
 
-  return { loading, error, events };
+  const bookmarkEvent = (eventId) => {
+    return setEvents((prevEvents) => {
+      const newEvents = [...prevEvents];
+      const event = newEvents.find((e) => e.id === eventId);
+      if (!event.bookmarked) event.bookmarked = true;
+
+      return newEvents;
+    });
+  };
+
+  const unbookmarkEvent = (eventId) => {
+    return setEvents((prevEvents) => {
+      const newEvents = [...prevEvents];
+      const event = newEvents.find((e) => e.id === eventId);
+      if (event.bookmarked) event.bookmarked = false;
+
+      return newEvents;
+    });
+  };
+
+  return { loading, error, events, bookmarkEvent, unbookmarkEvent };
 };
 
 export const useEventsByCategory = (category) => {
-  const { loading, error, events } = useEvents({
+  const eventsState = useEvents({
     classificationName: category,
   });
 
-  return { loading, error, events };
+  return eventsState;
 };
 
 export const useUpcomingEvents = (daysFromToday = 3) => {
@@ -47,23 +68,41 @@ export const useUpcomingEvents = (daysFromToday = 3) => {
 
   const endDateTime = moment(future).format("YYYY-MM-DDTHH:mm:ssZ");
 
-  const { loading, error, events } = useEvents({ endDateTime });
+  const eventsState = useEvents({ endDateTime });
 
-  return { loading, error, events };
+  return eventsState;
 };
 
 export const useEventsByLocation = (lng, lat) => {
   const hash = geohash.encode(lat, lng);
 
-  const { loading, error, events } = useEvents({ geoPoint: hash });
+  const eventsState = useEvents({ geoPoint: hash });
 
-  return { loading, error, events };
+  return eventsState;
 };
 
-export const useEvent = (id) => {
-  const api = `https://app.ticketmaster.com/discovery/v2/events/${id}.json?apikey=7Y47X2uiPCSAp6XAJZG684wI2GzOJHUT`;
+export const useEvent = (eventId) => {
+  console.log({ eventId });
 
-  const { loading, error, response: event } = useFetch(api);
+  const [event, setEvent] = useState({});
+  const { loading, error, execute: getEvent } = useAsync({
+    fn: (eventId) => EventsService.getEvent(eventId),
+    immediate: false,
+    initLoading: true,
+  });
+
+  useEffect(() => {
+    initEvent(eventId);
+  }, [eventId]);
+
+  const initEvent = (eventId) => {
+    getEvent(eventId).then((evnt) => {
+      // console.log("After execute");
+      // console.log({ evnt });
+
+      setEvent(evnt);
+    });
+  };
 
   return { loading, error, event };
 };

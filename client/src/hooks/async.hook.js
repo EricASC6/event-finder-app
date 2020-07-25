@@ -1,34 +1,43 @@
 import { useState, useCallback, useEffect } from "react";
 
-export const useAsync = (asyncFunction, immediate = true) => {
-  const [loading, setLoading] = useState(false);
+export const useAsync = ({
+  fn = () => Promise.resolve(),
+  immediate = true,
+  initLoading = false,
+}) => {
+  const [loading, setLoading] = useState(initLoading);
   const [value, setValue] = useState(null);
   const [error, setError] = useState(null);
 
-  console.log("async rerender");
+  // console.log("async rerender");
 
   // The execute function wraps asyncFunction and
   // handles setting state for pending, value, and error.
   // useCallback ensures the below useEffect is not called
   // on every render, but only if asyncFunction changes.
-  const execute = useCallback(() => {
-    setLoading(true);
-    setValue(null);
-    setError(null);
-    return asyncFunction()
-      .then((response) => {
-        setValue(response);
-        return response;
-      })
-      .catch((error) => {
-        setError(error);
-        throw error;
-      })
-      .finally((response) => {
-        setLoading(false);
-        return response;
-      });
-  }, [asyncFunction]);
+  const execute = useCallback(
+    (...args) => {
+      console.log("executed");
+
+      setLoading(true);
+      setValue(null);
+      setError(null);
+      return fn(...args)
+        .then((response) => {
+          setValue(response);
+          return response;
+        })
+        .catch((error) => {
+          setError(error);
+          throw error;
+        })
+        .finally((response) => {
+          setLoading(false);
+          return response;
+        });
+    },
+    [fn]
+  );
 
   // Call execute if we want to fire it right away.
   // Otherwise execute can be called later, such as

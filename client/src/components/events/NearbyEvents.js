@@ -5,10 +5,23 @@ import { useEventsByLocation } from "../../hooks/events.hook";
 const NearbyEvents = ({ coordinates }) => {
   const { longitude, latitude } = coordinates;
 
-  const { loading, error, events } = useEventsByLocation(longitude, latitude);
+  const {
+    loading,
+    error,
+    events,
+    bookmarkEvent,
+    unbookmarkEvent,
+  } = useEventsByLocation(longitude, latitude);
 
   return (
-    <EventsList horizontal loading={loading} error={error} events={events} />
+    <EventsList
+      horizontal
+      loading={loading}
+      error={error}
+      events={events}
+      bookmarkEvent={bookmarkEvent}
+      unbookmarkEvent={unbookmarkEvent}
+    />
   );
 };
 

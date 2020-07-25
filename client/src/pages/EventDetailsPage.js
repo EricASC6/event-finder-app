@@ -7,7 +7,12 @@ import eventStyles from "../styles/events.module.css";
 
 const EventDetailsPage = () => {
   const { id } = useParams();
+  console.log({ id });
+
   const { loading, error, event } = useEvent(id);
+
+  console.log({ loading });
+  console.log({ error });
 
   if (loading)
     return (
@@ -23,13 +28,15 @@ const EventDetailsPage = () => {
       </Page>
     );
 
-  return (
-    <Page>
-      <div className={eventStyles.detailsPage} id={event.id}>
-        <EventDetails event={event} />
-      </div>
-    </Page>
-  );
+  return <div>Got event</div>;
+
+  // return (
+  //   <Page>
+  //     <div className={eventStyles.detailsPage} id={event.id}>
+  //       <EventDetails event={event} />
+  //     </div>
+  //   </Page>
+  // );
 };
 
 export default EventDetailsPage;

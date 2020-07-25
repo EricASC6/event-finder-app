@@ -19,39 +19,50 @@ const createQueryString = (req, res, next) => {
   return next();
 };
 
-router.use(jwtAuth());
+// router.use(jwtAuth());
 router.use(createQueryString);
 
 router.get("/", async (req, res) => {
-  console.log("Yooo");
-
-  console.log({ headers: req.headers });
-
   const apiEndpoint = `${TICKET_MASTER_API}/events${req.queryString}`;
-  const response = await fetch(apiEndpoint);
-  const json = await response.json();
+  try {
+    const response = await fetch(apiEndpoint);
+    const json = await response.json();
 
-  const tmEvents = json._embedded.events;
-  const events = tmEvents.map((event) =>
-    eventController.tranformTicketMasterEvent(event)
-  );
+    const tmEvents = json._embedded.events;
+    const events = tmEvents.map((event) =>
+      eventController.tranformTicketMasterEvent(event)
+    );
 
-  // console.log({ events });
+    // console.log({ events });
 
-  return res.json({
-    events,
-  });
+    return res.json({
+      events,
+    });
+  } catch (err) {
+    return res.status(404).json({ message: "Not found" });
+  }
 });
 
 router.get("/:id", async (req, res) => {
+  console.log(req.params);
   const { id } = req.params;
-  const apiEndpoint = `${TICKET_MASTER_API}/events/${id}${req.queryString}`;
-  const response = await fetch(apiEndpoint);
-  const json = await response.json();
+  const apiEndpoint = `${TICKET_MASTER_API}/events/${id}/${req.queryString}`;
 
-  res.json({
-    event: json,
-  });
+  return res.json({ id: id });
+  // try {
+  //   const response = await fetch(apiEndpoint);
+  //   const json = await response.json();
+
+  //   console.log({ json });
+
+  //   const event = eventController.tranformTicketMasterEvent(json);
+
+  //   return res.json({
+  //     event: event,
+  //   });
+  // } catch (err) {
+  //   return res.status(404).json({ error: "Not found" });
+  // }
 });
 
 module.exports = router;
