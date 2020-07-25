@@ -1,4 +1,62 @@
+const admin = require("../admin/admin");
+const axios = require("axios").default;
 const moment = require("moment");
+const queryParams = require("../services/queryParams");
+
+const firestore = admin.firestore();
+
+const TICKET_MASTER_API_KEY = require("../keys/keys").TICKET_MASTER;
+const TICKET_MASTER_API = "https://app.ticketmaster.com/discovery/v2";
+
+const DEFAULT_QUERY_PARAMS = {
+  apikey: TICKET_MASTER_API_KEY,
+  countryCode: "US",
+};
+
+class Event {
+  constructor({
+    id,
+    name,
+    image,
+    date = {
+      month: "",
+      day: "",
+      week: "",
+    },
+    duration = {
+      startTime: "",
+      endTime: "",
+    },
+    description,
+    category,
+    location = {
+      address: "",
+      city: "",
+      state: "",
+      postalCode: "",
+      coordinates: "",
+    },
+    minPrice,
+    maxPrice,
+    url,
+    bookmarked = false,
+  }) {
+    this.id = id;
+    this.name = name;
+    this.image = image;
+    this.date = date;
+    this.duration = duration;
+    this.description = description;
+    this.category = category;
+    this.location = location;
+    this.priceRanges = {
+      minPrice,
+      maxPrice,
+    };
+    this.url = url;
+    this.bookmarked = bookmarked;
+  }
+}
 
 exports.tranformTicketMasterEvent = (event) => {
   console.log({ event });
@@ -66,47 +124,17 @@ exports.tranformTicketMasterEvent = (event) => {
   });
 };
 
-class Event {
-  constructor({
-    id,
-    name,
-    image,
-    date = {
-      month: "",
-      day: "",
-      week: "",
-    },
-    duration = {
-      startTime: "",
-      endTime: "",
-    },
-    description,
-    category,
-    location = {
-      address: "",
-      city: "",
-      state: "",
-      postalCode: "",
-      coordinates: "",
-    },
-    minPrice,
-    maxPrice,
-    url,
-    bookmarked = false,
-  }) {
-    this.id = id;
-    this.name = name;
-    this.image = image;
-    this.date = date;
-    this.duration = duration;
-    this.description = description;
-    this.category = category;
-    this.location = location;
-    this.priceRanges = {
-      minPrice,
-      maxPrice,
-    };
-    this.url = url;
-    this.bookmarked = bookmarked;
-  }
-}
+exports.isExistingEvent = async (eventId) => {
+  const eventRef = firestore.collection("events").doc(eventId);
+  const eventSnapshot = await eventRef.get();
+  const exists = eventSnapshot.exists;
+  return exists;
+};
+
+exports.getEvents = (options = {}) => {
+  const query = queryParams.createQueryString({
+    ...options,
+    ...DEFAULT_QUERY_PARAMS,
+  });
+  return query;
+};

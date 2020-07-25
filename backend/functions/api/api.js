@@ -9,6 +9,7 @@ const router = express();
 // API Routes
 const events = require("./routes/events");
 const auth = require("./routes/auth");
+const bookmark = require("./routes/bookmark");
 // API Routes
 
 app.use(
@@ -31,5 +32,6 @@ router.use(cookieParser());
 
 router.use("/events", events);
 router.use("/auth", auth);
+router.use("/bookmarks", bookmark);
 
 module.exports.handler = serverless(app);

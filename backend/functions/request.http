@@ -1,4 +1,5 @@
 @api=http://localhost:8888/.netlify/functions/api
+@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTcwMTk5NywiZXhwIjoxNTk1NzE5OTk3fQ.S1TBtk5Gq_X558DmiWaR6WEDqRCzeFUKcpQj9PV0vzM
 
 ###
 POST {{api}}/auth/login
@@ -18,8 +19,16 @@ Content-Type: application/json
 
 ###
 GET {{api}}/events?classificationName=Sports
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTYzNTgzMCwiZXhwIjoxNTk1NjUzODMwfQ.YtZwY8QQlmGxhiKNsk4UopslXP_kkKS5pcX12MoBPkI
+Authorization: Bearer {{_}}
 
 ###
 GET {{api}}/events/vvG1YZpare8ow4
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTYzNTgzMCwiZXhwIjoxNTk1NjUzODMwfQ.YtZwY8QQlmGxhiKNsk4UopslXP_kkKS5pcX12MoBPkI
+Authorization: Bearer {{_}}
+
+###
+GET {{api}}/bookmarks
+Authorization: Bearer {{_}}
+
+###
+POST {{api}}/bookmarks/123
+Authorization: Bearer {{_}}

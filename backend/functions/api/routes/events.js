@@ -22,14 +22,16 @@ const createQueryString = (req, res, next) => {
   return next();
 };
 
-// router.use(jwtAuth());
+router.use(jwtAuth());
 router.use(createQueryString);
 
 router.get("/", async (req, res) => {
+  const q = eventController.getEvents(req.query);
+
+  console.log({ q });
+
   const apiEndpoint = `${TICKET_MASTER_API}/events${req.queryString}`;
   console.log({ apiEndpoint });
-
-  // axios.get(apiEndpoint).then((x) => console.log(x));
 
   try {
     const response = await axios.get(apiEndpoint);
