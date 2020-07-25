@@ -6,29 +6,25 @@ import geohash from "ngeohash";
 
 export const useEvents = ({
   classificationName = null,
-  geohash = null,
+  geoPoint = null,
   endDateTime = null,
   keyword = null,
 } = {}) => {
-  const options = { keyword, classificationName, geohash, endDateTime };
+  const options = { keyword, classificationName, geoPoint, endDateTime };
 
   const [events, setEvents] = useState([]);
   const { loading, error, execute: getEvents } = useAsync({
     fn: (options) => EventsService.getEvents(options),
     immediate: false,
     initLoading: true,
+    onResolve: (evnts) => setEvents(evnts),
   });
 
   useEffect(() => {
     initEvents(options);
   }, [classificationName, geohash, endDateTime]);
 
-  const initEvents = (options) =>
-    getEvents(options).then((evnts) => {
-      // console.log("After execute");
-      // console.log({ evnts });
-      setEvents(evnts);
-    });
+  const initEvents = (options) => getEvents(options);
 
   const bookmarkEvent = (eventId) => {
     return setEvents((prevEvents) => {
@@ -89,6 +85,7 @@ export const useEvent = (eventId) => {
     fn: (eventId) => EventsService.getEvent(eventId),
     immediate: false,
     initLoading: true,
+    onResolve: (evnt) => setEvent(evnt),
   });
 
   useEffect(() => {
@@ -96,13 +93,20 @@ export const useEvent = (eventId) => {
   }, [eventId]);
 
   const initEvent = (eventId) => {
-    getEvent(eventId).then((evnt) => {
-      // console.log("After execute");
-      // console.log({ evnt });
-
-      setEvent(evnt);
-    });
+    getEvent(eventId);
   };
 
-  return { loading, error, event };
+  const bookmarkEvent = () => {
+    const newEvent = Object.assign({}, event);
+    if (!newEvent.bookmarked) newEvent.bookmarked = true;
+    return setEvent(newEvent);
+  };
+
+  const unbookmarkEvent = () => {
+    const newEvent = Object.assign({}, event);
+    if (newEvent.bookmarked) newEvent.bookmarked = false;
+    return setEvent(newEvent);
+  };
+
+  return { loading, error, event, bookmarkEvent, unbookmarkEvent };
 };

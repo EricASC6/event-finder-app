@@ -1,6 +1,8 @@
 const moment = require("moment");
 
 exports.tranformTicketMasterEvent = (event) => {
+  console.log({ event });
+
   const {
     id,
     name,
@@ -28,7 +30,7 @@ exports.tranformTicketMasterEvent = (event) => {
 
   const description = _description || "No info for this event";
 
-  const category = classifications[0].segment.name;
+  const category = classifications ? classifications[0].segment.name : "N/A";
   const {
     address: _address,
     city,
@@ -36,6 +38,7 @@ exports.tranformTicketMasterEvent = (event) => {
     postalCode,
     location: coordinates,
   } = _embedded.venues[0];
+
   const address = `${_address.line1} ${city.name}, ${state.name} ${postalCode}`;
   const location = {
     address: address,

@@ -7,12 +7,12 @@ import eventStyles from "../styles/events.module.css";
 
 const EventDetailsPage = () => {
   const { id } = useParams();
-  console.log({ id });
 
-  const { loading, error, event } = useEvent(id);
+  const { loading, error, event, bookmarkEvent, unbookmarkEvent } = useEvent(
+    id
+  );
 
-  console.log({ loading });
-  console.log({ error });
+  console.log({ event });
 
   if (loading)
     return (
@@ -28,15 +28,19 @@ const EventDetailsPage = () => {
       </Page>
     );
 
-  return <div>Got event</div>;
-
-  // return (
-  //   <Page>
-  //     <div className={eventStyles.detailsPage} id={event.id}>
-  //       <EventDetails event={event} />
-  //     </div>
-  //   </Page>
-  // );
+  return (
+    <Page>
+      <div className={eventStyles.detailsPage} id={event.id}>
+        <EventDetails
+          event={event}
+          onBookmark={(event) => {
+            if (!event.bookmarked) bookmarkEvent();
+            else unbookmarkEvent();
+          }}
+        />
+      </div>
+    </Page>
+  );
 };
 
 export default EventDetailsPage;

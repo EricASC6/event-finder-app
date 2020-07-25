@@ -4,11 +4,12 @@ import Category from "../general/Category";
 import Map from "../general/Map";
 import BackButton from "../general/BackButton";
 import { ReactComponent as BoomarkIcon } from "../../icons/bookmark.svg";
+import { ReactComponent as BoomarkFilledIcon } from "../../icons/bookmark-filled.svg";
 import { ReactComponent as CalendarPlusIcon } from "../../icons/calendar-plus.svg";
 import { ReactComponent as TicketIcon } from "../../icons/ticket.svg";
 import eventsStyles from "../../styles/events.module.css";
 
-const EventDetails = ({ event }) => {
+const EventDetails = ({ event, onBookmark = () => {} }) => {
   const {
     name,
     image,
@@ -19,6 +20,7 @@ const EventDetails = ({ event }) => {
     location,
     priceRanges,
     url,
+    bookmarked,
   } = event;
 
   const { month, day, week } = date;
@@ -47,7 +49,12 @@ const EventDetails = ({ event }) => {
             <h4 className={eventsStyles.city}>{city}</h4>
             <h2 className={eventsStyles.detailsName}>{name}</h2>
           </div>
-          <BoomarkIcon className={eventsStyles.bookmark} />
+          {/* <BoomarkIcon className={eventsStyles.bookmark} /> */}
+          {bookmarked ? (
+            <BoomarkFilledIcon onClick={() => onBookmark(event)} />
+          ) : (
+            <BoomarkIcon onClick={() => onBookmark(event)} />
+          )}
         </div>
         <div className={eventsStyles.detailsBanner}>
           <div className={eventsStyles.detailsTime}>
@@ -61,7 +68,7 @@ const EventDetails = ({ event }) => {
             </div>
           </div>
           <button className={eventsStyles.calendarBtn}>
-            Add To Calendar{" "}
+            Add To Calendar
             <CalendarPlusIcon className={eventsStyles.calendarIcon} />
           </button>
         </div>

@@ -4,6 +4,7 @@ export const useAsync = ({
   fn = () => Promise.resolve(),
   immediate = true,
   initLoading = false,
+  onResolve = () => {},
 }) => {
   const [loading, setLoading] = useState(initLoading);
   const [value, setValue] = useState(null);
@@ -25,16 +26,10 @@ export const useAsync = ({
       return fn(...args)
         .then((response) => {
           setValue(response);
-          return response;
+          onResolve(response);
         })
-        .catch((error) => {
-          setError(error);
-          throw error;
-        })
-        .finally((response) => {
-          setLoading(false);
-          return response;
-        });
+        .catch((error) => setError(error))
+        .finally(() => setLoading(false));
     },
     [fn]
   );

@@ -17,9 +17,9 @@ POST {{api}}/auth/logout
 Content-Type: application/json
 
 ###
-GET {{api}}/events?classificationName=a
+GET {{api}}/events?classificationName=Sports
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTYzNTgzMCwiZXhwIjoxNTk1NjUzODMwfQ.YtZwY8QQlmGxhiKNsk4UopslXP_kkKS5pcX12MoBPkI
 
 ###
-GET {{api}}/events/asdf
+GET {{api}}/events/vvG1YZpare8ow4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTYzNTgzMCwiZXhwIjoxNTk1NjUzODMwfQ.YtZwY8QQlmGxhiKNsk4UopslXP_kkKS5pcX12MoBPkI
