@@ -12,13 +12,6 @@ const auth = require("./routes/auth");
 const bookmark = require("./routes/bookmark");
 // API Routes
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
-app.use("/.netlify/functions/api", router);
 router.use((req, res, next) => {
   console.log({ query: req.query });
   console.log({ url: req.url });
@@ -33,5 +26,13 @@ router.use(cookieParser());
 router.use("/events", events);
 router.use("/auth", auth);
 router.use("/bookmarks", bookmark);
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use("/.netlify/functions/api", router);
 
 module.exports.handler = serverless(app);

@@ -136,5 +136,35 @@ exports.getEvents = (options = {}) => {
     ...options,
     ...DEFAULT_QUERY_PARAMS,
   });
-  return query;
+
+  const apiEndpoint = `${TICKET_MASTER_API}/events${query}`;
+  console.log({ apiEndpoint });
+
+  return axios.get(apiEndpoint).then((res) => {
+    const data = res.data;
+    console.log({ data });
+
+    const tmEvents = (data._embedded && data._embedded.events) || [];
+    console.log({ tmEvents });
+    const events = tmEvents.map((event) =>
+      this.tranformTicketMasterEvent(event)
+    );
+
+    return events;
+  });
+};
+
+exports.getEvent = (eventId) => {
+  const query = queryParams.createQueryString(DEFAULT_QUERY_PARAMS);
+  const apiEndpoint = `${TICKET_MASTER_API}/events/${eventId}${query}`;
+
+  console.log({ apiEndpoint });
+
+  return axios.get(apiEndpoint).then((res) => {
+    const data = res.data;
+    const event = this.tranformTicketMasterEvent(data);
+    console.log({ event });
+
+    return event;
+  });
 };

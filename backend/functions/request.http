@@ -1,5 +1,5 @@
 @api=http://localhost:8888/.netlify/functions/api
-@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTcwMTk5NywiZXhwIjoxNTk1NzE5OTk3fQ.S1TBtk5Gq_X558DmiWaR6WEDqRCzeFUKcpQj9PV0vzM
+@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTcyMjMxOCwiZXhwIjoxNTk1NzQwMzE4fQ.LqVCIxdksqYX9zhikWowLYsUOmNs2gbcVgzoziykATk
 
 ###
 POST {{api}}/auth/login
@@ -18,11 +18,11 @@ POST {{api}}/auth/logout
 Content-Type: application/json
 
 ###
-GET {{api}}/events?classificationName=Sports
+GET {{api}}/events?classificationName=Music
 Authorization: Bearer {{_}}
 
 ###
-GET {{api}}/events/vvG1YZpare8ow4
+GET {{api}}/events/vvG1YZpare8ow4_
 Authorization: Bearer {{_}}
 
 ###
