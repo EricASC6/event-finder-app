@@ -8,7 +8,6 @@ router.use(jwtAuth());
 router.get("/", async (req, res) => {
   try {
     const events = await eventController.getEvents(req.query);
-    console.log({ events });
 
     return res.json({ events });
   } catch (err) {

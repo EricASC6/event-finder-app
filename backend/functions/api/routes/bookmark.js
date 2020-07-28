@@ -11,7 +11,12 @@ router.get("/", (req, res) => {
 router.post("/:eventId", async (req, res) => {
   const { eventId } = req.params;
 
-  const isExistingEvent = await eventController.isExistingEvent(eventId);
+  try {
+    const isExistingEvent = await eventController.isExistingEvent(eventId);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 
   res.send(isExistingEvent);
 });

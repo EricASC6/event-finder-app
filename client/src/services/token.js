@@ -26,8 +26,7 @@ const handleTokenResponse = (accessToken) => {
 };
 
 const fetchAccessToken = () => {
-  const tokenEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/token";
+  const tokenEndpoint = "/.netlify/functions/api/auth/token";
 
   return http.post(tokenEndpoint).then((response) => {
     const accessToken = response.data.access_token || null;
@@ -42,8 +41,7 @@ const fetchAccessToken = () => {
 };
 
 const fetchAccessTokenFromIdToken = (idToken) => {
-  const tokenEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/login";
+  const tokenEndpoint = "/.netlify/functions/api/auth/login";
 
   return http.post(tokenEndpoint, { id_token: idToken }).then((response) => {
     const accessToken = response.data.access_token || null;
@@ -60,8 +58,7 @@ const fetchAccessTokenFromIdToken = (idToken) => {
 const removeRefreshTokenAfterLogout = () => {
   console.log("Removing token");
 
-  const logoutEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/logout";
+  const logoutEndpoint = "/.netlify/functions/api/auth/logout";
 
   return http.post(logoutEndpoint).then((response) => {
     handleTokenResponse(null);

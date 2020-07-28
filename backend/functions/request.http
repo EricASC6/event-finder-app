@@ -1,5 +1,5 @@
-@api=http://localhost:8888/.netlify/functions/api
-@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTcyMjMxOCwiZXhwIjoxNTk1NzQwMzE4fQ.LqVCIxdksqYX9zhikWowLYsUOmNs2gbcVgzoziykATk
+@api=http://localhost:8000/.netlify/functions/api
+@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTg5NTkwMiwiZXhwIjoxNTk1OTEzOTAyfQ.JIaBy1BuGGBC1xlIu1c9t9wDYQeYTOUkkZ8K2Cg8oQI
 
 ###
 POST {{api}}/auth/login
@@ -22,7 +22,7 @@ GET {{api}}/events?classificationName=Music
 Authorization: Bearer {{_}}
 
 ###
-GET {{api}}/events/vvG1YZpare8ow4_
+GET {{api}}/events/vvG1YZpare8ow4
 Authorization: Bearer {{_}}
 
 ###
@@ -32,3 +32,6 @@ Authorization: Bearer {{_}}
 ###
 POST {{api}}/bookmarks/123
 Authorization: Bearer {{_}}
+
+###
+GET {{api}}

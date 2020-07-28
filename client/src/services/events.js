@@ -3,7 +3,7 @@ import { combineApiWithQueryParams } from "../utils/utils.api";
 
 const getEvents = async (options = {}) => {
   const api = combineApiWithQueryParams(
-    "http://localhost:8888/.netlify/functions/api/events",
+    "/.netlify/functions/api/events",
     options
   );
 
@@ -20,7 +20,7 @@ const getEvents = async (options = {}) => {
 };
 
 const getEvent = async (eventId) => {
-  const api = `http://localhost:8888/.netlify/functions/api/events/${eventId}`;
+  const api = `/.netlify/functions/api/events/${eventId}`;
 
   console.log({ api });
 

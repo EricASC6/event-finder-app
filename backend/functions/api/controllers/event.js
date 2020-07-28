@@ -59,7 +59,7 @@ class Event {
 }
 
 exports.tranformTicketMasterEvent = (event) => {
-  console.log({ event });
+  // console.log({ event });
 
   const {
     id,
@@ -142,10 +142,7 @@ exports.getEvents = (options = {}) => {
 
   return axios.get(apiEndpoint).then((res) => {
     const data = res.data;
-    console.log({ data });
-
     const tmEvents = (data._embedded && data._embedded.events) || [];
-    console.log({ tmEvents });
     const events = tmEvents.map((event) =>
       this.tranformTicketMasterEvent(event)
     );

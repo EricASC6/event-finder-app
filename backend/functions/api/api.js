@@ -13,19 +13,19 @@ const bookmark = require("./routes/bookmark");
 // API Routes
 
 router.use((req, res, next) => {
+  console.log("-----------------Request---------------");
+  console.log(`${req.method} for ${req.url}`);
   console.log({ query: req.query });
-  console.log({ url: req.url });
-  console.log({ baseUrl: req.baseUrl });
   console.log({ path: req.path });
   next();
 });
-
 router.use(express.json());
 router.use(cookieParser());
 
 router.use("/events", events);
 router.use("/auth", auth);
 router.use("/bookmarks", bookmark);
+router.get("/", (req, res) => res.status(404).json({ error: "Not found" }));
 
 app.use(
   cors({
@@ -36,3 +36,4 @@ app.use(
 app.use("/.netlify/functions/api", router);
 
 module.exports.handler = serverless(app);
+module.exports.devServer = app;
