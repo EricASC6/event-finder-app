@@ -1,6 +1,7 @@
 const admin = require("../admin/admin");
 const axios = require("axios").default;
 const moment = require("moment");
+const cache = require("../services/cache");
 const queryParams = require("../services/queryParams");
 
 const firestore = admin.firestore();
@@ -179,9 +180,15 @@ exports.getEventFromTicketMaster = (eventId) => {
 };
 
 exports.getEventById = async (eventId) => {
-  const eventRef = firestore.collection("events").doc(eventId);
-  const event = await eventRef.get();
-  return event.data();
+  // const eventRef = firestore.collection("events").doc(eventId);
+  // const event = await eventRef.get();
+  // return event.data();
+
+  const event = await cache.fromFirestoreCache("events", eventId, async () => {
+    return await this.getEventFromTicketMaster(eventId);
+  });
+
+  return event;
 };
 
 exports.getEventsByIds = async (eventIds) => {
@@ -194,5 +201,5 @@ exports.saveEvent = (event) => {
     .collection("events")
     .withConverter(eventConverter)
     .doc(event.id);
-  return eventRef.set(event);
+  return eventRef.set(event, { merge: true });
 };

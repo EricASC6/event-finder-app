@@ -25,14 +25,22 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const { uid } = req.user;
 
   try {
-    const event = await eventController.getEventFromTicketMaster(id);
-    const userBookmark = await bookmarkController.getUserBookmark(uid);
+    const [eventFromFirebase, userBookmark] = await Promise.all([
+      eventController.getEventById(id),
+      bookmarkController.getUserBookmark(uid),
+    ]);
+
     const bookmarkedEvents = userBookmark ? userBookmark.data().events : {};
+    let event = eventFromFirebase;
+
+    if (!eventFromFirebase) {
+      event = await eventController.getEventFromTicketMaster(id);
+    }
 
     event.bookmarked = Boolean(bookmarkedEvents[event.id]);
 

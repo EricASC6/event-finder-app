@@ -9,7 +9,11 @@ import { ReactComponent as CalendarPlusIcon } from "../../icons/calendar-plus.sv
 import { ReactComponent as TicketIcon } from "../../icons/ticket.svg";
 import eventsStyles from "../../styles/events.module.css";
 
-const EventDetails = ({ event, onBookmark = () => {} }) => {
+const EventDetails = ({
+  event,
+  onBookmark = () => {},
+  onCalendarPress = () => {},
+}) => {
   const {
     name,
     image,
@@ -21,6 +25,7 @@ const EventDetails = ({ event, onBookmark = () => {} }) => {
     priceRanges,
     url,
     bookmarked,
+    addedToCalendar,
   } = event;
 
   const { month, day, week } = date;
@@ -49,7 +54,6 @@ const EventDetails = ({ event, onBookmark = () => {} }) => {
             <h4 className={eventsStyles.city}>{city}</h4>
             <h2 className={eventsStyles.detailsName}>{name}</h2>
           </div>
-          {/* <BoomarkIcon className={eventsStyles.bookmark} /> */}
           {bookmarked ? (
             <BoomarkFilledIcon onClick={() => onBookmark(event)} />
           ) : (
@@ -67,8 +71,11 @@ const EventDetails = ({ event, onBookmark = () => {} }) => {
               <p className={eventsStyles.detailsDuration}>{durationInterval}</p>
             </div>
           </div>
-          <button className={eventsStyles.calendarBtn}>
-            Add To Calendar
+          <button
+            className={eventsStyles.calendarBtn}
+            onClick={() => onCalendarPress(event)}
+          >
+            {!addedToCalendar ? "Add To" : "Remove From"}
             <CalendarPlusIcon className={eventsStyles.calendarIcon} />
           </button>
         </div>

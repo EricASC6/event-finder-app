@@ -39,3 +39,13 @@ DELETE {{api}}/bookmarks/vvG1YZpare8ow4
 Authorization: Bearer {{_}}
 
 ###
+
+GET {{api}}/calendar
+Authorization: Bearer {{_}}
+
+###
+
+POST {{api}}/calendar/123
+Authorization: Bearer {{_}}
+
+###

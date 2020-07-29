@@ -127,7 +127,29 @@ export const useEvent = (eventId) => {
     );
   };
 
-  return { loading, error, event, bookmarkEvent, unbookmarkEvent };
+  const setAddedToCalendarStatus = (added = false) => {
+    const newEvent = Object.assign({}, event);
+    newEvent.addedToCalendar = added;
+    setEvent(newEvent);
+  };
+
+  const addToCalendar = () => {
+    setAddedToCalendarStatus(true);
+  };
+
+  const removeFromCalendar = () => {
+    setAddedToCalendarStatus(false);
+  };
+
+  return {
+    loading,
+    error,
+    event,
+    bookmarkEvent,
+    unbookmarkEvent,
+    addToCalendar,
+    removeFromCalendar,
+  };
 };
 
 export const useBookmarkedEvents = () => {

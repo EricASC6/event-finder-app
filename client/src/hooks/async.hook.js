@@ -31,7 +31,7 @@ export const useAsync = ({
         .catch((error) => setError(error))
         .finally(() => setLoading(false));
     },
-    [fn]
+    [fn, onResolve]
   );
 
   // Call execute if we want to fire it right away.

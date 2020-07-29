@@ -1,9 +1,10 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/auth.hook";
 import { AuthService } from "../../services/auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
+  const location = useLocation();
   const { loading, tokenLoading, user } = useAuth();
 
   const isLoading = loading || tokenLoading;
@@ -18,7 +19,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         console.log({ authorized });
 
         if (authorized) return <Component {...props} />;
-        else return <Redirect to="/login" />;
+        else
+          return (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location.pathname },
+              }}
+            />
+          );
       }}
     />
   );

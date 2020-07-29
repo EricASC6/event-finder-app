@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import firebase from "../services/firebase";
 import { AuthService } from "../services/auth";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const auth = firebase.auth();
 
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     console.log("Mount");
 
     AuthService.silentRefresh()
-      .then(() => history.push("/"))
+      // .then(() => history.push("/"))
       .catch(() => history.push("/login"))
       .finally(() => setTokenLoading(false));
 

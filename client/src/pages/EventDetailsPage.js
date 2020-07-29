@@ -8,9 +8,15 @@ import eventStyles from "../styles/events.module.css";
 const EventDetailsPage = () => {
   const { id } = useParams();
 
-  const { loading, error, event, bookmarkEvent, unbookmarkEvent } = useEvent(
-    id
-  );
+  const {
+    loading,
+    error,
+    event,
+    bookmarkEvent,
+    unbookmarkEvent,
+    addToCalendar,
+    removeFromCalendar,
+  } = useEvent(id);
 
   console.log({ event });
 
@@ -36,6 +42,10 @@ const EventDetailsPage = () => {
           onBookmark={(event) => {
             if (!event.bookmarked) bookmarkEvent();
             else unbookmarkEvent();
+          }}
+          onCalendarPress={(event) => {
+            if (!event.addedToCalendar) addToCalendar();
+            else removeFromCalendar();
           }}
         />
       </div>
