@@ -14,7 +14,7 @@ export const useEvents = ({
 } = {}) => {
   const options = { keyword, classificationName, geoPoint, endDateTime };
 
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState({});
   const { loading, error, execute: getEvents } = useAsync({
     fn: (options) => EventsService.getEvents(options),
     immediate: false,
@@ -128,4 +128,37 @@ export const useEvent = (eventId) => {
   };
 
   return { loading, error, event, bookmarkEvent, unbookmarkEvent };
+};
+
+export const useBookmarkedEvents = () => {
+  const [events, setEvents] = useState({});
+
+  const { loading, error, execute: getBookmarkedEvents } = useAsync({
+    fn: () => BookmarkService.getBookmarkedEvents(),
+    immediate: false,
+    initLoading: true,
+    onResolve: (evnts) => setEvents(mapIdToObject(evnts)),
+  });
+
+  useEffect(() => {
+    initBookmarkedEvents();
+  }, []);
+
+  const initBookmarkedEvents = () => getBookmarkedEvents();
+
+  const unbookmarkEvent = (eventId) => {
+    const eventsCopy = Object.assign({}, events);
+
+    setEvents(() => {
+      const newEvents = Object.assign({}, events);
+      delete newEvents[eventId];
+      return newEvents;
+    });
+
+    return BookmarkService.unbookmarkEvent(eventId).catch(() =>
+      setEvents(eventsCopy)
+    );
+  };
+
+  return { loading, error, events: Object.values(events), unbookmarkEvent };
 };

@@ -1,4 +1,5 @@
 const admin = require("../admin/admin");
+const eventsController = require("./event");
 
 const firestore = admin.firestore();
 const FieldValue = admin.firestore.FieldValue;
@@ -10,6 +11,17 @@ exports.getUserBookmark = async (uid) => {
   const bookmarkSnapshots = await bookmarksRef.get();
   const snapshot = !bookmarkSnapshots.empty ? bookmarkSnapshots.docs[0] : null;
   return snapshot;
+};
+
+exports.getUserBookmarkedEvents = async (uid) => {
+  const userBookmark = await this.getUserBookmark(uid);
+  const bookmarkData = (userBookmark && userBookmark.data()) || {};
+  const eventIds = Object.keys(bookmarkData.events || {});
+
+  const bookmarkedEvents = await eventsController.getEventsByIds(eventIds);
+  bookmarkedEvents.forEach((e) => (e.bookmarked = true));
+
+  return bookmarkedEvents;
 };
 
 exports.bookmarkEvent = async (uid, eventId) => {

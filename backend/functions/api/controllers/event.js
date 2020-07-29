@@ -60,7 +60,8 @@ class Event {
 
 const eventConverter = {
   toFirestore: (event) => {
-    const eventObj = Object.assign({}, event);
+    const { bookmarked, ...rest } = event;
+    const eventObj = Object.assign({}, { ...rest });
     return eventObj;
   },
   fromFirestore: (snapshot, options) => {
@@ -142,7 +143,7 @@ exports.isExistingEvent = async (eventId) => {
   return exists;
 };
 
-exports.getEvents = (options = {}) => {
+exports.getEventsFromTicketMaster = (options = {}) => {
   const query = queryParams.createQueryString({
     ...options,
     ...DEFAULT_QUERY_PARAMS,
@@ -162,7 +163,7 @@ exports.getEvents = (options = {}) => {
   });
 };
 
-exports.getEvent = (eventId) => {
+exports.getEventFromTicketMaster = (eventId) => {
   const query = queryParams.createQueryString(DEFAULT_QUERY_PARAMS);
   const apiEndpoint = `${TICKET_MASTER_API}/events/${eventId}${query}`;
 
@@ -175,6 +176,17 @@ exports.getEvent = (eventId) => {
 
     return event;
   });
+};
+
+exports.getEventById = async (eventId) => {
+  const eventRef = firestore.collection("events").doc(eventId);
+  const event = await eventRef.get();
+  return event.data();
+};
+
+exports.getEventsByIds = async (eventIds) => {
+  const events = await Promise.all(eventIds.map((id) => this.getEventById(id)));
+  return events;
 };
 
 exports.saveEvent = (event) => {

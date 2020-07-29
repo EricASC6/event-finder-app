@@ -1,6 +1,10 @@
 import { AuthorizedService } from "./authorized";
 
-const getBookmarkedEvents = () => {};
+const getBookmarkedEvents = () => {
+  return AuthorizedService.get(`/.netlify/functions/api/bookmarks`).then(
+    (res) => res.data.events
+  );
+};
 
 const bookmarkEvent = (eventId) => {
   return AuthorizedService.post(`/.netlify/functions/api/bookmarks/${eventId}`);

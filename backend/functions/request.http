@@ -1,5 +1,5 @@
 @api=http://localhost:8000/.netlify/functions/api
-@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTk2MzM4NywiZXhwIjoxNTk1OTgxMzg3fQ.4W4-K4Kmtm8_ur3osFh8vcdcfHp6qXHvXWoGPw1tQl0
+@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NjA0NTcxNSwiZXhwIjoxNTk2MDYzNzE1fQ.IcsJk6oyrZvAD-unUmZIdXC90f_ZqlfIMfJ4i2c7czY
 
 ###
 POST {{api}}/auth/login

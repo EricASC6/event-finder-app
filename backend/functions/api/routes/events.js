@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
   const { uid } = req.user;
 
   try {
-    const events = await eventController.getEvents(req.query);
+    const events = await eventController.getEventsFromTicketMaster(req.query);
     const userBookmark = await bookmarkController.getUserBookmark(uid);
     const bookmarkedEvents = userBookmark ? userBookmark.data().events : {};
 
@@ -30,7 +30,7 @@ router.get("/:id", async (req, res, next) => {
   const { uid } = req.user;
 
   try {
-    const event = await eventController.getEvent(id);
+    const event = await eventController.getEventFromTicketMaster(id);
     const userBookmark = await bookmarkController.getUserBookmark(uid);
     const bookmarkedEvents = userBookmark ? userBookmark.data().events : {};
 

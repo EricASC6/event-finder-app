@@ -5,8 +5,17 @@ const eventController = require("../controllers/event");
 const bookmarkController = require("../controllers/bookmark");
 
 router.use(jwtAuth());
-router.get("/", (req, res) => {
-  res.send("Bookmarks");
+router.get("/", async (req, res) => {
+  const { uid } = req.user;
+
+  try {
+    const bookmarkedEvents = await bookmarkController.getUserBookmarkedEvents(
+      uid
+    );
+    return res.json({ events: bookmarkedEvents });
+  } catch {
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.post("/:eventId", async (req, res) => {
@@ -21,7 +30,7 @@ router.post("/:eventId", async (req, res) => {
     console.log({ isExistingEvent });
 
     if (!isExistingEvent) {
-      const event = await eventController.getEvent(eventId);
+      const event = await eventController.getEventFromTicketMaster(eventId);
       await eventController.saveEvent(event);
     }
 
