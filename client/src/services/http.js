@@ -2,7 +2,7 @@ import Cache from "./cache";
 import _ from "lodash";
 
 export default class Http {
-  constructor(configs, withCache = false) {
+  constructor(configs = {}, withCache = false) {
     this.configs = _.merge(
       {
         headers: {

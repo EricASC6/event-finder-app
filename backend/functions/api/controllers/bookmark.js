@@ -1,6 +1,7 @@
 const admin = require("../admin/admin");
 
 const firestore = admin.firestore();
+const FieldValue = admin.firestore.FieldValue;
 
 exports.getUserBookmark = async (uid) => {
   const bookmarksRef = firestore
@@ -34,4 +35,23 @@ exports.bookmarkEvent = async (uid, eventId) => {
       },
     });
   }
+};
+
+exports.unbookmarkEvent = async (uid, eventId) => {
+  const bookmarkSnapshot = await this.getUserBookmark(uid);
+  if (!bookmarkSnapshot) {
+    throw new Error("Event not bookmarked");
+  }
+
+  const bookmarkedEvents = bookmarkSnapshot.data().events;
+  const eventBookmarked = bookmarkedEvents[eventId];
+
+  if (!eventBookmarked) {
+    throw new Error("Event not bookmarked");
+  }
+
+  const eventField = `events.${eventId}`;
+  return bookmarkSnapshot.ref.update({
+    [eventField]: FieldValue.delete(),
+  });
 };

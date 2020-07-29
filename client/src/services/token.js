@@ -1,6 +1,6 @@
 import Http from "./http";
 
-const http = new Http({ credentials: "include" });
+const http = new Http();
 
 let accessToken = null;
 

@@ -1,7 +1,6 @@
 const express = require("express");
 const serverless = require("serverless-http");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
 
 const app = express();
 const router = express();
@@ -27,12 +26,6 @@ router.use("/auth", auth);
 router.use("/bookmarks", bookmark);
 router.get("/", (req, res) => res.status(404).json({ error: "Not found" }));
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
 app.use("/.netlify/functions/api", router);
 
 module.exports.handler = serverless(app);

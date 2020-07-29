@@ -58,6 +58,17 @@ class Event {
   }
 }
 
+const eventConverter = {
+  toFirestore: (event) => {
+    const eventObj = Object.assign({}, event);
+    return eventObj;
+  },
+  fromFirestore: (snapshot, options) => {
+    const event = new Event(snapshot.data(options));
+    return event;
+  },
+};
+
 exports.tranformTicketMasterEvent = (event) => {
   // console.log({ event });
 
@@ -164,4 +175,12 @@ exports.getEvent = (eventId) => {
 
     return event;
   });
+};
+
+exports.saveEvent = (event) => {
+  const eventRef = firestore
+    .collection("events")
+    .withConverter(eventConverter)
+    .doc(event.id);
+  return eventRef.set(event);
 };

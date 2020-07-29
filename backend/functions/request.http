@@ -1,5 +1,5 @@
 @api=http://localhost:8000/.netlify/functions/api
-@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTg5NTkwMiwiZXhwIjoxNTk1OTEzOTAyfQ.JIaBy1BuGGBC1xlIu1c9t9wDYQeYTOUkkZ8K2Cg8oQI
+@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NTk2MzM4NywiZXhwIjoxNTk1OTgxMzg3fQ.4W4-K4Kmtm8_ur3osFh8vcdcfHp6qXHvXWoGPw1tQl0
 
 ###
 POST {{api}}/auth/login
@@ -30,8 +30,12 @@ GET {{api}}/bookmarks
 Authorization: Bearer {{_}}
 
 ###
-POST {{api}}/bookmarks/123
+POST {{api}}/bookmarks/vvG1YZpare8ow4
 Authorization: Bearer {{_}}
 
 ###
-GET {{api}}
+
+DELETE {{api}}/bookmarks/vvG1YZpare8ow4
+Authorization: Bearer {{_}}
+
+###

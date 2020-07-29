@@ -1,6 +1,8 @@
 import { useAsync } from "./async.hook";
 import { useState, useEffect } from "react";
 import { EventsService } from "../services/events";
+import { BookmarkService } from "../services/bookmark";
+import { mapIdToObject } from "../helpers/mapIdToObject";
 import moment from "moment";
 import geohash from "ngeohash";
 
@@ -17,7 +19,7 @@ export const useEvents = ({
     fn: (options) => EventsService.getEvents(options),
     immediate: false,
     initLoading: true,
-    onResolve: (evnts) => setEvents(evnts),
+    onResolve: (evnts) => setEvents(mapIdToObject(evnts)),
   });
 
   useEffect(() => {
@@ -26,27 +28,36 @@ export const useEvents = ({
 
   const initEvents = (options) => getEvents(options);
 
-  const bookmarkEvent = (eventId) => {
+  const setBookmarkStatus = (eventId, bookmarked = false) => {
     return setEvents((prevEvents) => {
-      const newEvents = [...prevEvents];
-      const event = newEvents.find((e) => e.id === eventId);
-      if (!event.bookmarked) event.bookmarked = true;
-
+      const newEvents = Object.assign({}, prevEvents);
+      newEvents[eventId].bookmarked = bookmarked;
       return newEvents;
     });
+  };
+
+  const bookmarkEvent = (eventId) => {
+    // Optimistic UI Rendering
+    setBookmarkStatus(eventId, true);
+    return BookmarkService.bookmarkEvent(eventId).catch(() =>
+      setBookmarkStatus(eventId, false)
+    );
   };
 
   const unbookmarkEvent = (eventId) => {
-    return setEvents((prevEvents) => {
-      const newEvents = [...prevEvents];
-      const event = newEvents.find((e) => e.id === eventId);
-      if (event.bookmarked) event.bookmarked = false;
-
-      return newEvents;
-    });
+    setBookmarkStatus(eventId, false);
+    return BookmarkService.unbookmarkEvent(eventId).catch(() =>
+      setBookmarkStatus(eventId, true)
+    );
   };
 
-  return { loading, error, events, bookmarkEvent, unbookmarkEvent };
+  return {
+    loading,
+    error,
+    events: Object.values(events),
+    bookmarkEvent,
+    unbookmarkEvent,
+  };
 };
 
 export const useEventsByCategory = (category) => {
@@ -96,16 +107,24 @@ export const useEvent = (eventId) => {
     getEvent(eventId);
   };
 
-  const bookmarkEvent = () => {
+  const setBookmarkStatus = (bookmarked = false) => {
     const newEvent = Object.assign({}, event);
-    if (!newEvent.bookmarked) newEvent.bookmarked = true;
-    return setEvent(newEvent);
+    newEvent.bookmarked = bookmarked;
+    setEvent(newEvent);
+  };
+
+  const bookmarkEvent = () => {
+    setBookmarkStatus(true);
+    return BookmarkService.bookmarkEvent(eventId).catch(() =>
+      setBookmarkStatus(false)
+    );
   };
 
   const unbookmarkEvent = () => {
-    const newEvent = Object.assign({}, event);
-    if (newEvent.bookmarked) newEvent.bookmarked = false;
-    return setEvent(newEvent);
+    setBookmarkStatus(false);
+    return BookmarkService.unbookmarkEvent(eventId).catch(() =>
+      setBookmarkStatus(true)
+    );
   };
 
   return { loading, error, event, bookmarkEvent, unbookmarkEvent };
