@@ -1,5 +1,5 @@
 @api=http://localhost:8000/.netlify/functions/api
-@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NjA0NTcxNSwiZXhwIjoxNTk2MDYzNzE1fQ.IcsJk6oyrZvAD-unUmZIdXC90f_ZqlfIMfJ4i2c7czY
+@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NjA2NjEyMCwiZXhwIjoxNTk2MDg0MTIwfQ.yxBmBxKJGWily8677_c6v91j2o_g2QTa2ionCwILhOs
 
 ###
 POST {{api}}/auth/login
@@ -45,7 +45,12 @@ Authorization: Bearer {{_}}
 
 ###
 
-POST {{api}}/calendar/123
+POST {{api}}/calendar/vv178Zp7Gkl2LAD8
+Authorization: Bearer {{_}}
+
+###
+
+DELETE {{api}}/calendar/vv178Zp7Gkl2LAD8
 Authorization: Bearer {{_}}
 
 ###

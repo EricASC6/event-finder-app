@@ -7,10 +7,12 @@ const TWO_DAYS = 2 * 24 * 60 * 60 * 1000;
 exports.fromFirestoreCache = async (
   collectionName,
   docId,
-  onExpired = async () => {}
+  onExpired = async () => {},
+  converter
 ) => {
   const docRef = firestore.collection(collectionName).doc(docId);
   const snapshot = await docRef.get();
+
   const data = snapshot.data();
   const exp = (data && data.__exp.toDate().getTime()) || 0;
   console.log({ exp });
@@ -27,20 +29,22 @@ exports.fromFirestoreCache = async (
 
   console.log("----getting cached value-----");
 
-  return data;
+  return converter ? converter(data) : data;
 };
 
 exports.saveToFirestoreCache = (
   collectionName,
   docId,
   data,
+  converter,
   expiration = TWO_DAYS
 ) => {
   const exp = new Date(new Date().getTime() + expiration);
   const value = { ...data, __exp: exp };
+  const firestoreValue = converter ? converter(value) : value;
 
   return firestore
     .collection(collectionName)
     .doc(docId)
-    .set(value, { merge: true });
+    .set(firestoreValue, { merge: true });
 };

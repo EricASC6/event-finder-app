@@ -2,6 +2,7 @@ import { useAsync } from "./async.hook";
 import { useState, useEffect } from "react";
 import { EventsService } from "../services/events";
 import { BookmarkService } from "../services/bookmark";
+import { CalendarService } from "../services/calendar";
 import { mapIdToObject } from "../helpers/mapIdToObject";
 import moment from "moment";
 import geohash from "ngeohash";
@@ -183,4 +184,23 @@ export const useBookmarkedEvents = () => {
   };
 
   return { loading, error, events: Object.values(events), unbookmarkEvent };
+};
+
+export const useEventsOnCalendar = () => {
+  const [events, setEvents] = useState({});
+
+  const { loading, error, execute: getEventsOnCalendar } = useAsync({
+    fn: () => CalendarService.getEventsOnCalendar(),
+    immediate: false,
+    initLoading: true,
+    onResolve: (evnts) => setEvents(mapIdToObject(evnts)),
+  });
+
+  useEffect(() => {
+    initBookmarkedEvents();
+  }, []);
+
+  const initBookmarkedEvents = () => getEventsOnCalendar();
+
+  return { loading, error, events: Object.values(events) };
 };

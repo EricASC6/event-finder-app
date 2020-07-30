@@ -41,6 +41,7 @@ class Event {
     maxPrice,
     url,
     bookmarked = false,
+    addedToCalendar = false,
   }) {
     this.id = id;
     this.name = name;
@@ -56,19 +57,13 @@ class Event {
     };
     this.url = url;
     this.bookmarked = bookmarked;
+    this.addedToCalendar = addedToCalendar;
   }
 }
 
-const eventConverter = {
-  toFirestore: (event) => {
-    const { bookmarked, ...rest } = event;
-    const eventObj = Object.assign({}, { ...rest });
-    return eventObj;
-  },
-  fromFirestore: (snapshot, options) => {
-    const event = new Event(snapshot.data(options));
-    return event;
-  },
+const FirestoreEvent = (event) => {
+  const { bookmarked, addedToCalendar, ...rest } = event;
+  return { ...rest };
 };
 
 exports.tranformTicketMasterEvent = (event) => {
@@ -180,13 +175,14 @@ exports.getEventFromTicketMaster = (eventId) => {
 };
 
 exports.getEventById = async (eventId) => {
-  // const eventRef = firestore.collection("events").doc(eventId);
-  // const event = await eventRef.get();
-  // return event.data();
-
-  const event = await cache.fromFirestoreCache("events", eventId, async () => {
-    return await this.getEventFromTicketMaster(eventId);
-  });
+  const event = await cache.fromFirestoreCache(
+    "events",
+    eventId,
+    async () => {
+      return this.getEventFromTicketMaster(eventId);
+    },
+    (data) => new Event(data)
+  );
 
   return event;
 };
@@ -197,9 +193,5 @@ exports.getEventsByIds = async (eventIds) => {
 };
 
 exports.saveEvent = (event) => {
-  const eventRef = firestore
-    .collection("events")
-    .withConverter(eventConverter)
-    .doc(event.id);
-  return eventRef.set(event, { merge: true });
+  return cache.saveToFirestoreCache("events", event.id, event, FirestoreEvent);
 };

@@ -31,7 +31,7 @@ router.post("/:eventId", cacheEvent(), async (req, res) => {
     .catch((error) => res.status(400).json({ error: error.message }));
 });
 
-router.delete("/:eventId", async (req, res) => {
+router.delete("/:eventId", (req, res) => {
   const { eventId } = req.params;
   console.log({ eventId });
 
