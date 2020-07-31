@@ -1,7 +1,6 @@
 const admin = require("../admin/admin");
 const axios = require("axios").default;
 const moment = require("moment");
-const cache = require("../services/cache");
 const queryParams = require("../services/queryParams");
 
 const firestore = admin.firestore();
@@ -61,9 +60,15 @@ class Event {
   }
 }
 
-const FirestoreEvent = (event) => {
-  const { bookmarked, addedToCalendar, ...rest } = event;
-  return { ...rest };
+const EventConverter = {
+  toFirestore: (event) => {
+    const { bookmarked, addedToCalendar, ...rest } = event;
+    return { ...rest };
+  },
+  fromFirestore: (snapshot, options) => {
+    const event = snapshot.data(options);
+    return new Event({ ...event });
+  },
 };
 
 exports.tranformTicketMasterEvent = (event) => {
@@ -174,17 +179,13 @@ exports.getEventFromTicketMaster = (eventId) => {
   });
 };
 
-exports.getEventById = async (eventId) => {
-  const event = await cache.fromFirestoreCache(
-    "events",
-    eventId,
-    async () => {
-      return this.getEventFromTicketMaster(eventId);
-    },
-    (data) => new Event(data)
-  );
-
-  return event;
+exports.getEventById = (eventId) => {
+  return firestore
+    .collection("events")
+    .doc(eventId)
+    .withConverter(EventConverter)
+    .get()
+    .then((event) => event.data());
 };
 
 exports.getEventsByIds = async (eventIds) => {
@@ -193,5 +194,9 @@ exports.getEventsByIds = async (eventIds) => {
 };
 
 exports.saveEvent = (event) => {
-  return cache.saveToFirestoreCache("events", event.id, event, FirestoreEvent);
+  return firestore
+    .collection("events")
+    .doc(event.id)
+    .withConverter(EventConverter)
+    .set(event, { merge: true });
 };

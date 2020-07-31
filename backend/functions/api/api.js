@@ -10,6 +10,7 @@ const events = require("./routes/events");
 const auth = require("./routes/auth");
 const bookmark = require("./routes/bookmark");
 const calendar = require("./routes/calendar");
+const venue = require("./routes/venue");
 // API Routes
 
 router.use((req, res, next) => {
@@ -26,6 +27,7 @@ router.use("/events", events);
 router.use("/auth", auth);
 router.use("/bookmarks", bookmark);
 router.use("/calendar", calendar);
+router.use("/venues", venue);
 router.get("/", (req, res) => res.status(404).json({ error: "Not found" }));
 
 app.use("/.netlify/functions/api", router);

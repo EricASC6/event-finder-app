@@ -31,7 +31,7 @@ const EventDetails = ({
   const { month, day, week } = date;
   const { startTime, endTime } = duration;
   const { address, city, coordinates } = location;
-  const { minPrice, maxPrice } = priceRanges;
+  const { minPrice = 0, maxPrice = 0 } = priceRanges;
 
   const eventMonth = month.toUpperCase();
   const durationInterval = `${startTime} - ${endTime}`;

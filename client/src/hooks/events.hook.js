@@ -23,11 +23,11 @@ export const useEvents = ({
     onResolve: (evnts) => setEvents(mapIdToObject(evnts)),
   });
 
+  const initEvents = (options) => getEvents(options);
+
   useEffect(() => {
     initEvents(options);
-  }, [classificationName, geohash, endDateTime]);
-
-  const initEvents = (options) => getEvents(options);
+  }, [classificationName, geohash, endDateTime, keyword]);
 
   const setBookmarkStatus = (eventId, bookmarked = false) => {
     return setEvents((prevEvents) => {
@@ -136,10 +136,16 @@ export const useEvent = (eventId) => {
 
   const addToCalendar = () => {
     setAddedToCalendarStatus(true);
+    return CalendarService.addEventToCalendar(eventId).catch(() =>
+      setAddedToCalendarStatus(false)
+    );
   };
 
   const removeFromCalendar = () => {
     setAddedToCalendarStatus(false);
+    return CalendarService.removeEventFromCalendar(eventId).catch(() =>
+      setAddedToCalendarStatus(true)
+    );
   };
 
   return {

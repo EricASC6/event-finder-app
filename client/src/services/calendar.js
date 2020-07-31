@@ -6,9 +6,15 @@ const getEventsOnCalendar = () => {
   );
 };
 
-const addEventToCalendar = (eventId) => {};
+const addEventToCalendar = (eventId) => {
+  return AuthorizedService.post(`/.netlify/functions/api/calendar/${eventId}`);
+};
 
-const removeEventFromCalendar = (eventId) => {};
+const removeEventFromCalendar = (eventId) => {
+  return AuthorizedService.delete(
+    `/.netlify/functions/api/calendar/${eventId}`
+  );
+};
 
 export const CalendarService = {
   getEventsOnCalendar,
