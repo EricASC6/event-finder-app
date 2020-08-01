@@ -3,7 +3,7 @@ const router = express.Router();
 const TicketMaster = require("../services/ticketMaster");
 const { jwtAuth } = require("../middleware/jwtAuth");
 
-router.use(jwtAuth());
+// router.use(jwtAuth());
 
 router.get("/", (req, res) => {
   TicketMaster.getVenues(req.query)
@@ -17,5 +17,9 @@ router.get("/:venueId", (req, res) => {
     .then((venue) => res.json({ venue }))
     .catch((err) => res.status(400).json({ error: err.message }));
 });
+
+router.get("/:venueId/reviews", (req, res) => {});
+
+router.post("/:venueId/reviews", (req, res) => {});
 
 module.exports = router;

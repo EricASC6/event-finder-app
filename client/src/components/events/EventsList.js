@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import EventCard from "./EventCard";
 
 const EventsList = ({
@@ -16,7 +16,7 @@ const EventsList = ({
   if (error) return <div>Error!!</div>;
 
   return (
-    <>
+    <Fragment>
       {events.map((event) => (
         <EventCard
           key={event.id}
@@ -28,7 +28,7 @@ const EventsList = ({
           }}
         />
       ))}
-    </>
+    </Fragment>
   );
 };
 
