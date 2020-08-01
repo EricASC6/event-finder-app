@@ -11,4 +11,11 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(400).json({ error: err.message }));
 });
 
+router.get("/:venueId", (req, res) => {
+  const venueId = req.params.venueId;
+  return TicketMaster.getVenueById(venueId)
+    .then((venue) => res.json({ venue }))
+    .catch((err) => res.status(400).json({ error: err.message }));
+});
+
 module.exports = router;

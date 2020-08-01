@@ -1,5 +1,5 @@
 @api=http://localhost:8000/.netlify/functions/api
-@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NjE1NTI2OCwiZXhwIjoxNTk2MTczMjY4fQ.qTbEVF_qMZrF1Rb4TFwzMJ7oTigbS3SseVzot6dM6FY
+@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NjI0MDU5MCwiZXhwIjoxNTk2MjU4NTkwfQ.KoVsZ_FgDhwtWL6W9L36o64wauDVCP0GUf8f5ToDfPM
 
 ###
 POST {{api}}/auth/login
@@ -56,5 +56,8 @@ Authorization: Bearer {{_}}
 ###
 
 ###
-GET {{api}}/venues/
+GET {{api}}/venues
+Authorization: Bearer {{_}}
+###
+GET {{api}}/venues/KovZpZAFnlEA
 Authorization: Bearer {{_}}
