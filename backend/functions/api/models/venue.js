@@ -30,9 +30,8 @@ module.exports = class Venue {
       url,
     } = ticketMasterVenue;
 
-    const _image =
-      images && images.find((img) => img.ratio === "16_9" && img.width > 288);
-    const image = _image ? _image.url : null;
+    const _image = images && images[0].url;
+    const image = _image || null;
 
     const description = _description || "No info for this venue";
 

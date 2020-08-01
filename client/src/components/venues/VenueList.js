@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import VenueCard from "./VenueCard";
 
 const VenueList = ({ loading, error, venues }) => {
   if (loading) return <div>Loading!!</div>;
@@ -8,7 +9,7 @@ const VenueList = ({ loading, error, venues }) => {
   return (
     <Fragment>
       {venues.map((venue) => {
-        return <div>{venue.name}</div>;
+        return <VenueCard key={venue.id} venue={venue} />;
       })}
     </Fragment>
   );

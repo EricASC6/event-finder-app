@@ -23,9 +23,8 @@ export const useEvents = ({
     onResolve: (evnts) => setEvents(mapIdToObject(evnts)),
   });
 
-  const initEvents = (options) => getEvents(options);
-
   useEffect(() => {
+    const initEvents = (options) => getEvents(options);
     initEvents(options);
   }, [classificationName, geohash, endDateTime, keyword]);
 
@@ -101,12 +100,12 @@ export const useEvent = (eventId) => {
   });
 
   useEffect(() => {
+    const initEvent = (eventId) => {
+      getEvent(eventId);
+    };
+
     initEvent(eventId);
   }, [eventId]);
-
-  const initEvent = (eventId) => {
-    getEvent(eventId);
-  };
 
   const setBookmarkStatus = (bookmarked = false) => {
     const newEvent = Object.assign({}, event);
@@ -170,10 +169,9 @@ export const useBookmarkedEvents = () => {
   });
 
   useEffect(() => {
+    const initBookmarkedEvents = () => getBookmarkedEvents();
     initBookmarkedEvents();
   }, []);
-
-  const initBookmarkedEvents = () => getBookmarkedEvents();
 
   const unbookmarkEvent = (eventId) => {
     const eventsCopy = Object.assign({}, events);
@@ -203,10 +201,9 @@ export const useEventsOnCalendar = () => {
   });
 
   useEffect(() => {
+    const initBookmarkedEvents = () => getEventsOnCalendar();
     initBookmarkedEvents();
   }, []);
-
-  const initBookmarkedEvents = () => getEventsOnCalendar();
 
   return { loading, error, events: Object.values(events) };
 };
