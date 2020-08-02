@@ -12,6 +12,7 @@ module.exports = class Venue {
       coordinates: "",
     },
     url,
+    upcomingEvents = 0,
   }) {
     this.id = id;
     this.name = name;
@@ -19,6 +20,7 @@ module.exports = class Venue {
     this.description = description;
     this.location = location;
     this.url = url;
+    this.upcomingEvents = upcomingEvents;
   }
 
   static createVenueFromTicketMaster(ticketMasterVenue) {
@@ -28,6 +30,7 @@ module.exports = class Venue {
       images,
       description: _description,
       url,
+      upcomingEvents: { _total: upcomingEvents },
     } = ticketMasterVenue;
 
     const _image = images && images[0].url;
@@ -59,6 +62,7 @@ module.exports = class Venue {
       description,
       location,
       url,
+      upcomingEvents,
     });
   }
 };
