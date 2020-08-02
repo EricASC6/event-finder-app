@@ -1,3 +1,6 @@
+/* Styles are similar to events but I got too lazy to revamp the styles */
+
+/* Venues Card */
 .card {
   width: 100%;
   display: flex;
@@ -59,3 +62,23 @@
   color: var(--main);
   font-weight: 500;
 }
+/* Venue Cards */
+
+/* Venue Details */
+.detailsImage {
+  width: 100%;
+  min-height: 10rem;
+}
+
+.detailsName {
+  font-size: 1.25rem;
+  color: var(--black);
+}
+
+.detailsContent {
+  color: var(--light-gray);
+  font-size: 0.85rem;
+  line-height: 165%;
+  padding: 0.5rem 0;
+}
+/* Venue Details */

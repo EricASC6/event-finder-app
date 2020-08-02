@@ -17,3 +17,21 @@ export const useVenues = () => {
 
   return { loading, error, venues };
 };
+
+export const useVenue = (venueId) => {
+  const [venue, setVenue] = useState({});
+  const { loading, error, execute: getVenue } = useAsync({
+    fn: (venueId) => VenueService.getVenue(venueId),
+    initLoading: true,
+    immediate: false,
+    onResolve: (v) => setVenue(v),
+  });
+
+  useEffect(() => {
+    const initVenue = () => getVenue(venueId);
+
+    initVenue();
+  }, []);
+
+  return { loading, error, venue };
+};

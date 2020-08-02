@@ -10,6 +10,13 @@ const getVenues = (options = {}) => {
   return AuthorizedService.get(api).then((res) => res.data.venues);
 };
 
+const getVenue = (venueId) => {
+  return AuthorizedService.get(
+    `/.netlify/functions/api/venues/${venueId}`
+  ).then((res) => res.data.venue);
+};
+
 export const VenueService = {
   getVenues,
+  getVenue,
 };

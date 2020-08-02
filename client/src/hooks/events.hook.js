@@ -12,8 +12,15 @@ export const useEvents = ({
   geoPoint = null,
   endDateTime = null,
   keyword = null,
+  venueId = null,
 } = {}) => {
-  const options = { keyword, classificationName, geoPoint, endDateTime };
+  const options = {
+    keyword,
+    classificationName,
+    geoPoint,
+    endDateTime,
+    venueId,
+  };
 
   const [events, setEvents] = useState({});
   const { loading, error, execute: getEvents } = useAsync({
@@ -85,6 +92,11 @@ export const useEventsByLocation = (lng, lat) => {
 
   const eventsState = useEvents({ geoPoint: hash });
 
+  return eventsState;
+};
+
+export const useEventsByVenueId = (venueId) => {
+  const eventsState = useEvents({ venueId });
   return eventsState;
 };
 
