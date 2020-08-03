@@ -12,11 +12,13 @@ const VenueCard = ({ venue }) => {
 
   return (
     <div className={venueStyles.card}>
-      {image ? (
-        <img src={image} className={venueStyles.image} />
-      ) : (
-        <div className={venueStyles.blankImage} />
-      )}
+      <Link to={venueDetailsLink}>
+        {image ? (
+          <img src={image} className={venueStyles.image} />
+        ) : (
+          <div className={venueStyles.blankImage} />
+        )}
+      </Link>
 
       <div className={venueStyles.body}>
         <p className={venueStyles.city}>{city}</p>

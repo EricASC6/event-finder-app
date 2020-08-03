@@ -65,6 +65,10 @@
 /* Venue Cards */
 
 /* Venue Details */
+.detailsContainer {
+  padding-bottom: calc(var(--nav-height) + 25px);
+}
+
 .detailsImage {
   width: 100%;
   min-height: 10rem;
@@ -80,5 +84,34 @@
   font-size: 0.85rem;
   line-height: 165%;
   padding: 0.5rem 0;
+}
+
+.bottomContainer {
+  position: fixed;
+  height: var(--nav-height);
+  left: 0;
+  bottom: var(--nav-height);
+  width: 100%;
+  background: var(--white);
+  box-shadow: 0 -4px 4px 0 #b7b7b73a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.question {
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  background: var(--main);
+  color: var(--white);
+  font-weight: 400;
+  font-size: 0.9rem;
+  cursor: pointer;
 }
 /* Venue Details */

@@ -22,4 +22,10 @@ router.get("/:venueId/reviews", (req, res) => {});
 
 router.post("/:venueId/reviews", (req, res) => {});
 
+router.post("/:venueId/reviews/:reviewId/likes", (req, res) => {});
+
+router.delete("/:venueId/reviews/:reviewId/likes", (req, res) => {});
+
+router.get("/:venueId/reviews/:reviewId/replies", (req, res) => {});
+
 module.exports = router;
