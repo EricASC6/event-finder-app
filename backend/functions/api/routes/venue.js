@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const TicketMaster = require("../services/ticketMaster");
+const venueController = require("../controllers/venue");
 const { jwtAuth } = require("../middleware/jwtAuth");
 
 // router.use(jwtAuth());
@@ -11,11 +12,24 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(400).json({ error: err.message }));
 });
 
-router.get("/:venueId", (req, res) => {
+router.get("/:venueId", async (req, res) => {
   const venueId = req.params.venueId;
-  return TicketMaster.getVenueById(venueId)
-    .then((venue) => res.json({ venue }))
-    .catch((err) => res.status(400).json({ error: err.message }));
+  try {
+    const venueData = await venueController.getVenueById(venueId);
+    if (!venueData.exists) {
+      return TicketMaster.getVenueById(venueId)
+        .then((venue) => {
+          venueController.saveVenue(venue);
+          return res.json({ venue });
+        })
+        .catch((err) => res.status(400).json({ error: err.message }));
+    }
+
+    const venue = venueData.data();
+    return res.json({ venue });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
 });
 
 router.get("/:venueId/reviews", (req, res) => {});

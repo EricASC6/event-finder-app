@@ -6,6 +6,8 @@ import Title from "../basics/Title";
 import EventsList from "../events/EventsList";
 import { useToggle } from "../../hooks/toggle.hook";
 import VenueReviewModal from "./VenueReviewModal";
+import StarRatings from "react-star-ratings";
+import VenueReviewsList from "./VenueReviewsList";
 
 const VenueDetails = ({ venue }) => {
   const { id, name, image, location, description, upcomingEvents } = venue;
@@ -45,6 +47,16 @@ const VenueDetails = ({ venue }) => {
         </div>
         <div>
           <Title>Reviews</Title>
+          <h2 className={venueStyles.ratings}>4.44</h2>
+          <StarRatings
+            rating={3}
+            starDimension="28px"
+            starRatedColor="#FBFF24"
+          />
+          <p className={venueStyles.ratingsLabel}>based on 23 ratings</p>
+          <div style={{ marginTop: "1rem" }}>
+            <VenueReviewsList />
+          </div>
         </div>
       </Container>
       <Container className={venueStyles.bottomContainer}>
@@ -53,7 +65,11 @@ const VenueDetails = ({ venue }) => {
           Write a Review
         </button>
       </Container>
-      <VenueReviewModal open={reviewModalOpen} handleClose={closeReviewModal} />
+      <VenueReviewModal
+        open={reviewModalOpen}
+        handleClose={closeReviewModal}
+        width="250px"
+      />
     </Fragment>
   );
 };

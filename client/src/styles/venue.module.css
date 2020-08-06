@@ -114,4 +114,39 @@
   font-size: 0.9rem;
   cursor: pointer;
 }
+
+.ratings {
+  font-size: 2rem;
+  color: var(--black);
+}
+
+.ratingsLabel {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--light-gray);
+}
+
 /* Venue Details */
+
+/* Review */
+.reviewerEmail {
+  color: var(--dark-gray);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.reviewerDate {
+  color: var(--light-gray);
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+}
+
+.reviewBox {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--light-gray);
+  padding: 1rem 0.75rem 1rem;
+  background: #fdfdfd;
+  border-radius: 5px;
+}
+/* Review */

@@ -43,6 +43,7 @@ router.get("/:id", async (req, res) => {
 
     if (!eventFromFirebase) {
       event = await eventController.getEventFromTicketMaster(id);
+      eventController.saveEvent(event);
     }
 
     event.bookmarked = Boolean(bookmarkedEvents[event.id]);
