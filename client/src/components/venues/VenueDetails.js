@@ -8,6 +8,7 @@ import { useToggle } from "../../hooks/toggle.hook";
 import VenueReviewModal from "./VenueReviewModal";
 import StarRatings from "react-star-ratings";
 import VenueReviewsList from "./VenueReviewsList";
+import ReviewsBreakdown from "./ReviewsBreakdown";
 
 const VenueDetails = ({ venue }) => {
   const { id, name, image, location, description, upcomingEvents } = venue;
@@ -45,7 +46,7 @@ const VenueDetails = ({ venue }) => {
             unbookmarkEvent={unbookmarkEvent}
           />
         </div>
-        <div>
+        <div style={{ marginTop: "2rem" }}>
           <Title>Reviews</Title>
           <h2 className={venueStyles.ratings}>4.44</h2>
           <StarRatings
@@ -55,6 +56,9 @@ const VenueDetails = ({ venue }) => {
           />
           <p className={venueStyles.ratingsLabel}>based on 23 ratings</p>
           <div style={{ marginTop: "1rem" }}>
+            <ReviewsBreakdown total={10} breakdown={[1, 4, 2, 3, 0]} />
+          </div>
+          <div style={{ marginTop: "2rem" }}>
             <VenueReviewsList />
           </div>
         </div>

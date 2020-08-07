@@ -150,3 +150,46 @@
   border-radius: 5px;
 }
 /* Review */
+
+/* Review Breakdown */
+.breakdownBox {
+  padding: 1rem 0.75rem 1rem;
+  background: #fdfdfd;
+  border-radius: 5px;
+}
+
+.breakdownBox .breakdownGraph:last-child {
+  margin-bottom: 0;
+}
+
+.breakdownGraph {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.breakdownLabel {
+  font-size: 0.75rem;
+  color: var(--light-gray);
+  margin-right: 0.5rem;
+}
+
+.graphContainer {
+  position: relative;
+  padding: 0.75rem;
+  width: 100%;
+  background: #eeeeee;
+  flex: 3;
+  border-radius: 5px;
+}
+
+.graphBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--light-gray);
+  border-radius: 5px;
+}
+/* Review Breakdown */
