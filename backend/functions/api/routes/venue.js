@@ -4,7 +4,7 @@ const TicketMaster = require("../services/ticketMaster");
 const venueController = require("../controllers/venue");
 const { jwtAuth } = require("../middleware/jwtAuth");
 
-// router.use(jwtAuth());
+router.use(jwtAuth());
 
 router.get("/", (req, res) => {
   TicketMaster.getVenues(req.query)
@@ -32,14 +32,23 @@ router.get("/:venueId", async (req, res) => {
   }
 });
 
-router.get("/:venueId/reviews", (req, res) => {});
+router.get("/:venueId/reviews", (req, res) => {
+  const venueId = req.params.venueId;
+  return venueController
+    .getVenueReviews(venueId)
+    .then((reviews) => res.json({ reviews }))
+    .catch((err) => res.status(400).json({ error: err.message }));
+});
 
-router.post("/:venueId/reviews", (req, res) => {});
+router.post("/:venueId/reviews", (req, res) => {
+  const { stars, text } = req.body;
+  const { uid, email } = req.user;
+  const venueId = req.params.venueId;
 
-router.post("/:venueId/reviews/:reviewId/likes", (req, res) => {});
-
-router.delete("/:venueId/reviews/:reviewId/likes", (req, res) => {});
-
-router.get("/:venueId/reviews/:reviewId/replies", (req, res) => {});
+  return venueController
+    .writeVenueReview({ uid, email }, { stars, text }, venueId)
+    .then(() => res.json({ message: "Successfully added venue review" }))
+    .catch((err) => res.status(400).json({ error: err.message }));
+});
 
 module.exports = router;

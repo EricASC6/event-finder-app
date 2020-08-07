@@ -29,3 +29,51 @@ exports.saveVenue = (venue) => {
     .withConverter(VenueConverter)
     .set(venue);
 };
+
+exports.getVenueReviews = (venueId) => {
+  return firestore
+    .collection("venues")
+    .doc(venueId)
+    .collection("reviews")
+    .get()
+    .then((snapshot) => snapshot.docs.map((doc) => doc.data()));
+};
+
+exports.writeVenueReview = async (user, review, venueId) => {
+  const { uid, email } = user;
+  const { stars, text } = review;
+
+  const venueRef = firestore.collection("venues").doc(venueId);
+  const reviewRef = venueRef.collection("reviews").doc();
+
+  await reviewRef.set({
+    user: { uid, email },
+    stars,
+    text,
+    createdAt: new Date(),
+  });
+
+  const venueSnapshot = await venueRef.withConverter(VenueConverter).get();
+
+  const venue = venueSnapshot.data();
+
+  const { reviews } = venue;
+  const { count, average, breakdown } = reviews;
+
+  const newCount = count + 1;
+  const newAverage = (count * average + stars) / newCount;
+  const newBreakdown = Object.assign({}, breakdown, {
+    [stars]: breakdown[stars] + 1,
+  });
+
+  return venueRef.set(
+    {
+      reviews: {
+        count: newCount,
+        average: newAverage,
+        breakdown: newBreakdown,
+      },
+    },
+    { merge: true }
+  );
+};

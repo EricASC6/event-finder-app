@@ -11,8 +11,19 @@ import VenueReviewsList from "./VenueReviewsList";
 import ReviewsBreakdown from "./ReviewsBreakdown";
 
 const VenueDetails = ({ venue }) => {
-  const { id, name, image, location, description, upcomingEvents } = venue;
+  const {
+    id,
+    name,
+    image,
+    location,
+    description,
+    upcomingEvents,
+    reviews,
+  } = venue;
   const { city } = location;
+  const { average, count, breakdown } = reviews;
+
+  const reviewBreakdown = Object.values(breakdown);
 
   const [reviewModalOpen, openReviewModal, closeReviewModal] = useToggle(false);
 
@@ -48,15 +59,15 @@ const VenueDetails = ({ venue }) => {
         </div>
         <div style={{ marginTop: "2rem" }}>
           <Title>Reviews</Title>
-          <h2 className={venueStyles.ratings}>4.44</h2>
+          <h2 className={venueStyles.ratings}>{average}</h2>
           <StarRatings
-            rating={3}
+            rating={average}
             starDimension="28px"
             starRatedColor="#FBFF24"
           />
-          <p className={venueStyles.ratingsLabel}>based on 23 ratings</p>
+          <p className={venueStyles.ratingsLabel}>based on {count} ratings</p>
           <div style={{ marginTop: "1rem" }}>
-            <ReviewsBreakdown total={10} breakdown={[1, 4, 2, 3, 0]} />
+            <ReviewsBreakdown total={count} breakdown={reviewBreakdown} />
           </div>
           <div style={{ marginTop: "2rem" }}>
             <VenueReviewsList />

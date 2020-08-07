@@ -193,3 +193,30 @@
   border-radius: 5px;
 }
 /* Review Breakdown */
+
+/* Review Modal */
+.reviewForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.reviewInput {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem;
+  outline: none;
+  border: none;
+  background: #f3f3f3;
+  border-radius: 5px;
+  height: 10rem;
+  resize: none;
+  font-family: "Poppins", sans-serif;
+  color: var(--light-gray);
+}
+
+.reviewInput::placeholder {
+  font-family: "Poppins", sans-serif;
+}
+/* Review Modal */

@@ -13,6 +13,17 @@ module.exports = class Venue {
     },
     url,
     upcomingEvents = 0,
+    reviews = {
+      count: 0,
+      average: 0,
+      breakdown: {
+        5: 0,
+        4: 0,
+        3: 0,
+        2: 0,
+        1: 0,
+      },
+    },
   }) {
     this.id = id;
     this.name = name;
@@ -21,6 +32,7 @@ module.exports = class Venue {
     this.location = location;
     this.url = url;
     this.upcomingEvents = upcomingEvents;
+    this.reviews = reviews;
   }
 
   static createVenueFromTicketMaster(ticketMasterVenue) {
