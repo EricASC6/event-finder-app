@@ -6,7 +6,7 @@ import VenueDetails from "../components/venues/VenueDetails";
 
 const VenueDetailsPage = () => {
   const { id } = useParams();
-  const { loading, error, venue } = useVenue(id);
+  const { loading, error, venue, updateReviewBreakdown } = useVenue(id);
 
   if (loading) return <div>Loading!!</div>;
 
@@ -14,7 +14,10 @@ const VenueDetailsPage = () => {
 
   return (
     <Page>
-      <VenueDetails venue={venue} />
+      <VenueDetails
+        venue={venue}
+        updateReviewBreakdown={updateReviewBreakdown}
+      />
     </Page>
   );
 };

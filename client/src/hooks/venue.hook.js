@@ -33,5 +33,49 @@ export const useVenue = (venueId) => {
     initVenue();
   }, []);
 
-  return { loading, error, venue };
+  const updateReviewBreakdown = (review) => {
+    const { stars } = review;
+
+    setVenue((v) => {
+      const venue = Object.assign({}, v);
+
+      const { reviews } = venue;
+
+      reviews.count++;
+      reviews.average =
+        (reviews.average * (reviews.count - 1) + stars) / reviews.count;
+      reviews.breakdown[stars]++;
+      return venue;
+    });
+  };
+
+  return { loading, error, venue, updateReviewBreakdown };
+};
+
+export const useVenueReviews = (venueId) => {
+  const [reviews, setReviews] = useState([]);
+  const { loading, error, execute: getReviews } = useAsync({
+    fn: (venueId) => VenueService.getVenueReviews(venueId),
+    initLoading: true,
+    immediate: false,
+    onResolve: (reviews) => setReviews(reviews),
+  });
+
+  useEffect(() => {
+    const initReviews = () => getReviews(venueId);
+
+    initReviews();
+  }, []);
+
+  const writeReview = ({ stars, text }) => {
+    return VenueService.writeVenueReview(venueId, {
+      text,
+      stars,
+    }).then((review) => {
+      setReviews((r) => [review, ...r]);
+      return review;
+    });
+  };
+
+  return { loading, error, reviews, writeReview };
 };

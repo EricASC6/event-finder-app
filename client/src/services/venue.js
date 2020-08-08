@@ -16,7 +16,22 @@ const getVenue = (venueId) => {
   ).then((res) => res.data.venue);
 };
 
+const getVenueReviews = (venueId) => {
+  return AuthorizedService.get(
+    `/.netlify/functions/api/venues/${venueId}/reviews`
+  ).then((res) => res.data.reviews);
+};
+
+const writeVenueReview = (venueId, { text, stars }) => {
+  return AuthorizedService.post(
+    `/.netlify/functions/api/venues/${venueId}/reviews`,
+    { text, stars }
+  ).then((res) => res.data.review);
+};
+
 export const VenueService = {
   getVenues,
   getVenue,
+  getVenueReviews,
+  writeVenueReview,
 };

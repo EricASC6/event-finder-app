@@ -1,22 +1,28 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
 import venueStyles from "../../styles/venue.module.css";
+import moment from "moment";
 
-const VenueReview = () => {
+const VenueReview = ({ review }) => {
+  const { stars, text, user, createdAt } = review;
+  const { _seconds } = createdAt;
+  const { email } = user;
+
+  const date = moment(_seconds * 1000).format("MMM D, y");
+
   return (
-    <div>
+    <div style={{ marginBottom: "2rem" }}>
       <div>
-        <h2 className={venueStyles.reviewerEmail}>eric@gmail.com</h2>
-        <p className={venueStyles.reviewerDate}>Created Jun 13, 2020</p>
+        <h2 className={venueStyles.reviewerEmail}>{email}</h2>
+        <p className={venueStyles.reviewerDate}>{date}</p>
       </div>
       <div className={venueStyles.reviewBox}>
-        <StarRatings rating={3} starDimension="20px" starRatedColor="#FBFF24" />
-        <p style={{ marginTop: "0.75rem", lineHeight: "175%" }}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate,
-          atque fugit ipsam accusamus ratione voluptates in unde. Assumenda,
-          pariatur sit fuga blanditiis laborum voluptatem quod error explicabo
-          facilis non magni.
-        </p>
+        <StarRatings
+          rating={stars}
+          starDimension="20px"
+          starRatedColor="#FBFF24"
+        />
+        <p style={{ marginTop: "0.75rem", lineHeight: "175%" }}>{text}</p>
       </div>
     </div>
   );

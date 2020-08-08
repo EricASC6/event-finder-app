@@ -5,12 +5,13 @@ import { useEventsByVenueId } from "../../hooks/events.hook";
 import Title from "../basics/Title";
 import EventsList from "../events/EventsList";
 import { useToggle } from "../../hooks/toggle.hook";
+import { useVenueReviews } from "../../hooks/venue.hook";
 import VenueReviewModal from "./VenueReviewModal";
 import StarRatings from "react-star-ratings";
 import VenueReviewsList from "./VenueReviewsList";
 import ReviewsBreakdown from "./ReviewsBreakdown";
 
-const VenueDetails = ({ venue }) => {
+const VenueDetails = ({ venue, updateReviewBreakdown }) => {
   const {
     id,
     name,
@@ -25,6 +26,14 @@ const VenueDetails = ({ venue }) => {
 
   const reviewBreakdown = Object.values(breakdown);
 
+  reviewBreakdown.reverse();
+
+  const {
+    loading: reviewsLoading,
+    error: reviewsError,
+    reviews: reviewsList,
+    writeReview,
+  } = useVenueReviews(id);
   const [reviewModalOpen, openReviewModal, closeReviewModal] = useToggle(false);
 
   const {
@@ -59,7 +68,9 @@ const VenueDetails = ({ venue }) => {
         </div>
         <div style={{ marginTop: "2rem" }}>
           <Title>Reviews</Title>
-          <h2 className={venueStyles.ratings}>{average}</h2>
+          <h2 className={venueStyles.ratings}>
+            {Math.floor(average * 100) / 100}
+          </h2>
           <StarRatings
             rating={average}
             starDimension="28px"
@@ -70,7 +81,11 @@ const VenueDetails = ({ venue }) => {
             <ReviewsBreakdown total={count} breakdown={reviewBreakdown} />
           </div>
           <div style={{ marginTop: "2rem" }}>
-            <VenueReviewsList />
+            <VenueReviewsList
+              loading={reviewsLoading}
+              error={reviewsError}
+              reviews={reviewsList}
+            />
           </div>
         </div>
       </Container>
@@ -84,6 +99,12 @@ const VenueDetails = ({ venue }) => {
         open={reviewModalOpen}
         handleClose={closeReviewModal}
         width="250px"
+        onWrite={({ stars, text }) => {
+          writeReview({ stars, text }).then((review) =>
+            updateReviewBreakdown(review)
+          );
+          closeReviewModal();
+        }}
       />
     </Fragment>
   );

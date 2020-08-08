@@ -1,5 +1,5 @@
 @api=http://localhost:8000/.netlify/functions/api
-@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NjgxODUwNywiZXhwIjoxNTk2ODM2NTA3fQ.eCz3JaH_qm4V9Qt4sQwofDWPHE1x_r63vpg54KvkVqc
+@_=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVyaWNAZ21haWwuY29tIiwidWlkIjoidVJRcWkyWHMzVU9kaUVHajdpTjZ3bXNpTDkyMiIsImlhdCI6MTU5NjkwMDk2NywiZXhwIjoxNTk2OTE4OTY3fQ.2DELybgKdhW0TOnKvRheae3lGKOpBSevc42loD485eo
 
 ###
 POST {{api}}/auth/login
@@ -68,8 +68,8 @@ Authorization: Bearer {{_}}
 Content-Type: application/json
 
 {
-    "stars": 3,
-    "text": "This is great"
+    "stars": 5,
+    "text": "Amazing venue with a lot of great food"
 }
 
 ###

@@ -47,7 +47,7 @@ router.post("/:venueId/reviews", (req, res) => {
 
   return venueController
     .writeVenueReview({ uid, email }, { stars, text }, venueId)
-    .then(() => res.json({ message: "Successfully added venue review" }))
+    .then((review) => res.json({ review }))
     .catch((err) => res.status(400).json({ error: err.message }));
 });
 

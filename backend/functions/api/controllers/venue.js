@@ -45,13 +45,15 @@ exports.writeVenueReview = async (user, review, venueId) => {
 
   const venueRef = firestore.collection("venues").doc(venueId);
   const reviewRef = venueRef.collection("reviews").doc();
-
-  await reviewRef.set({
+  const reviewDoc = {
     user: { uid, email },
     stars,
     text,
-    createdAt: new Date(),
-  });
+    createdAt: admin.firestore.Timestamp.now(),
+    id: reviewRef.id,
+  };
+
+  await reviewRef.set(reviewDoc);
 
   const venueSnapshot = await venueRef.withConverter(VenueConverter).get();
 
@@ -66,7 +68,7 @@ exports.writeVenueReview = async (user, review, venueId) => {
     [stars]: breakdown[stars] + 1,
   });
 
-  return venueRef.set(
+  await venueRef.set(
     {
       reviews: {
         count: newCount,
@@ -76,4 +78,6 @@ exports.writeVenueReview = async (user, review, venueId) => {
     },
     { merge: true }
   );
+
+  return reviewDoc;
 };
