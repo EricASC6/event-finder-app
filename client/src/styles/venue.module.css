@@ -86,6 +86,13 @@
   padding: 0.5rem 0;
 }
 
+@media (min-width: 1024px) {
+  .mainDetailsContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
 .bottomContainer {
   position: fixed;
   height: var(--nav-height);
@@ -195,6 +202,28 @@
 /* Review Breakdown */
 
 /* Review Modal */
+.reviewModal {
+  width: 250px;
+}
+
+@media (min-width: 425px) {
+  .reviewModal {
+    width: 300px;
+  }
+}
+
+@media (min-width: 768px) {
+  .reviewModal {
+    min-width: 350px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .reviewModal {
+    min-width: 500px;
+  }
+}
+
 .reviewForm {
   display: flex;
   flex-direction: column;

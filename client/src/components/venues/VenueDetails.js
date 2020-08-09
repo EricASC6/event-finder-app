@@ -54,12 +54,14 @@ const VenueDetails = ({ venue, updateReviewBreakdown }) => {
           <h2 className={venueStyles.detailsName}>{name}</h2>
           <p className={venueStyles.detailsContent}>{description}</p>
         </div>
-        <div style={{ paddingTop: "0.5rem" }}>
-          <p className={venueStyles.upcomingEvents}>
-            {upcomingEvents} Upcoming Events
-          </p>
-          <Title>Upcoming Events</Title>
-          <div className={eventsStyles.eventsListContainer}>
+
+        <div className={venueStyles.mainDetailsContainer}>
+          <div style={{ paddingTop: "0.5rem", flex: 1, marginRight: "1.5rem" }}>
+            <p className={venueStyles.upcomingEvents}>
+              {upcomingEvents} Upcoming Events
+            </p>
+            <Title>Upcoming Events</Title>
+            {/* <div className={eventsStyles.eventsListContainer}> */}
             <EventsList
               loading={eventsLoading}
               error={eventsError}
@@ -67,28 +69,29 @@ const VenueDetails = ({ venue, updateReviewBreakdown }) => {
               bookmarkEvent={bookmarkEvent}
               unbookmarkEvent={unbookmarkEvent}
             />
+            {/* </div> */}
           </div>
-        </div>
-        <div style={{ marginTop: "2rem" }}>
-          <Title>Reviews</Title>
-          <h2 className={venueStyles.ratings}>
-            {Math.floor(average * 100) / 100}
-          </h2>
-          <StarRatings
-            rating={average}
-            starDimension="28px"
-            starRatedColor="#FBFF24"
-          />
-          <p className={venueStyles.ratingsLabel}>based on {count} ratings</p>
-          <div style={{ marginTop: "1rem" }}>
-            <ReviewsBreakdown total={count} breakdown={reviewBreakdown} />
-          </div>
-          <div style={{ marginTop: "2rem" }}>
-            <VenueReviewsList
-              loading={reviewsLoading}
-              error={reviewsError}
-              reviews={reviewsList}
+          <div style={{ marginTop: "2rem", flex: 1 }}>
+            <Title>Reviews</Title>
+            <h2 className={venueStyles.ratings}>
+              {Math.floor(average * 100) / 100}
+            </h2>
+            <StarRatings
+              rating={average}
+              starDimension="28px"
+              starRatedColor="#FBFF24"
             />
+            <p className={venueStyles.ratingsLabel}>based on {count} ratings</p>
+            <div style={{ marginTop: "1rem" }}>
+              <ReviewsBreakdown total={count} breakdown={reviewBreakdown} />
+            </div>
+            <div style={{ marginTop: "2rem" }}>
+              <VenueReviewsList
+                loading={reviewsLoading}
+                error={reviewsError}
+                reviews={reviewsList}
+              />
+            </div>
           </div>
         </div>
       </Container>
@@ -101,7 +104,7 @@ const VenueDetails = ({ venue, updateReviewBreakdown }) => {
       <VenueReviewModal
         open={reviewModalOpen}
         handleClose={closeReviewModal}
-        width="250px"
+        className={venueStyles.reviewModal}
         onWrite={({ stars, text }) => {
           writeReview({ stars, text }).then((review) =>
             updateReviewBreakdown(review)

@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import generalStyles from "../../styles/general.module.css";
 
-const Modal = ({ children, open, handleClose, height, width }) => {
-  const className = `${generalStyles.modal} ${open && generalStyles.modalOpen}`;
+const Modal = ({ children, open, handleClose, height, width, className }) => {
+  const _className = `${generalStyles.modal} ${
+    open && generalStyles.modalOpen
+  } ${className}`;
 
   const modalRef = useRef();
 
@@ -27,7 +29,7 @@ const Modal = ({ children, open, handleClose, height, width }) => {
   }, []);
 
   return ReactDOM.createPortal(
-    <div className={className} ref={modalRef} style={{ width, height }}>
+    <div className={_className} ref={modalRef} style={{ width, height }}>
       {children}
     </div>,
     document.querySelector("#modal-root")
