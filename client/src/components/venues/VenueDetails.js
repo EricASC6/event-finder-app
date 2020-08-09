@@ -10,6 +10,7 @@ import VenueReviewModal from "./VenueReviewModal";
 import StarRatings from "react-star-ratings";
 import VenueReviewsList from "./VenueReviewsList";
 import ReviewsBreakdown from "./ReviewsBreakdown";
+import eventsStyles from "../../styles/events.module.css";
 
 const VenueDetails = ({ venue, updateReviewBreakdown }) => {
   const {
@@ -58,13 +59,15 @@ const VenueDetails = ({ venue, updateReviewBreakdown }) => {
             {upcomingEvents} Upcoming Events
           </p>
           <Title>Upcoming Events</Title>
-          <EventsList
-            loading={eventsLoading}
-            error={eventsError}
-            events={events}
-            bookmarkEvent={bookmarkEvent}
-            unbookmarkEvent={unbookmarkEvent}
-          />
+          <div className={eventsStyles.eventsListContainer}>
+            <EventsList
+              loading={eventsLoading}
+              error={eventsError}
+              events={events}
+              bookmarkEvent={bookmarkEvent}
+              unbookmarkEvent={unbookmarkEvent}
+            />
+          </div>
         </div>
         <div style={{ marginTop: "2rem" }}>
           <Title>Reviews</Title>

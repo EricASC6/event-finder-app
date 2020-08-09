@@ -11,9 +11,11 @@ const LoginPage = () => {
 
   return (
     <Container className={credentialsStyles.container}>
-      <Logo />
-      <Title>Login</Title>
-      <Login login={login} signInWithGoogle={signInWithGoogle} />
+      <div className={credentialsStyles.formContainer}>
+        <Logo />
+        <Title>Login</Title>
+        <Login login={login} signInWithGoogle={signInWithGoogle} />
+      </div>
     </Container>
   );
 };

@@ -35,10 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => AuthService.logout();
 
-  const signInWithGoogle = () => {
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
-    return auth.signInWithPopup(googleProvider);
-  };
+  const signInWithGoogle = () => AuthService.signInWithGoogle();
 
   return (
     <AuthContext.Provider

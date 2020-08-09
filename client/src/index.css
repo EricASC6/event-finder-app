@@ -27,6 +27,12 @@ body {
   width: 100%;
 }
 
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }

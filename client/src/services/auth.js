@@ -50,6 +50,19 @@ const signup = async (email, password) => {
   }
 };
 
+const signInWithGoogle = async () => {
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  return auth.signInWithPopup(googleProvider).then(async () => {
+    const user = firebase.auth().currentUser;
+    const idToken = await user.getIdToken();
+    const accessToken = await TokenService.fetchAccessTokenFromIdToken(idToken);
+
+    console.log({ accessToken });
+
+    return user;
+  });
+};
+
 const silentRefresh = async () => {
   try {
     const accessToken = await TokenService.fetchAccessToken();
@@ -78,5 +91,6 @@ export const AuthService = {
   signup,
   silentRefresh,
   logout,
+  signInWithGoogle,
   credentials,
 };

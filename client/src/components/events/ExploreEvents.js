@@ -5,8 +5,8 @@ import EventsList from "./EventsList";
 import Selector from "../general/Selector";
 import { EVENT_CATEGORY } from "../../enums/eventsCategory";
 import { createSelectorEntries } from "../../utils/utils.selector";
-
 import Title from "../basics/Title";
+import eventsStyles from "../../styles/events.module.css";
 
 const ExploreEvents = () => {
   const [category, setCategory] = useState(EVENT_CATEGORY.All);
@@ -30,13 +30,15 @@ const ExploreEvents = () => {
         entries={categoryEntries}
         onChange={(category) => setCategory(category)}
       />
-      <EventsList
-        loading={loading}
-        error={error}
-        events={events}
-        bookmarkEvent={bookmarkEvent}
-        unbookmarkEvent={unbookmarkEvent}
-      />
+      <div className={eventsStyles.eventsListContainer}>
+        <EventsList
+          loading={loading}
+          error={error}
+          events={events}
+          bookmarkEvent={bookmarkEvent}
+          unbookmarkEvent={unbookmarkEvent}
+        />
+      </div>
     </Container>
   );
 };

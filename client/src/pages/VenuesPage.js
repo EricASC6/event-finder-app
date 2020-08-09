@@ -4,6 +4,7 @@ import Container from "../components/general/Container";
 import VenueList from "../components/venues/VenueList";
 import Title from "../components/basics/Title";
 import { useVenues } from "../hooks/venue.hook";
+import eventsStyles from "../styles/events.module.css";
 
 const VenuesPage = () => {
   const { loading, error, venues } = useVenues();
@@ -12,9 +13,10 @@ const VenuesPage = () => {
     <Page>
       <Container>
         <Title>Venues</Title>
-      </Container>
-      <Container>
-        <VenueList loading={loading} error={error} venues={venues} />
+
+        <div className={eventsStyles.eventsListContainer}>
+          <VenueList loading={loading} error={error} venues={venues} />
+        </div>
       </Container>
     </Page>
   );

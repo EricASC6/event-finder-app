@@ -51,7 +51,9 @@ const Login = ({ login, signInWithGoogle }) => {
         login
         onClick={(e) => {
           e.preventDefault();
-          signInWithGoogle().catch((err) => setError(err.message));
+          signInWithGoogle()
+            .then(() => history.push("/"))
+            .catch((err) => setError(err.message));
         }}
       />
     </Form>

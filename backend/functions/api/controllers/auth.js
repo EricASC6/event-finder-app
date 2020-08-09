@@ -11,7 +11,9 @@ exports.verifyIdToken = (idToken) => {
   return admin.auth().verifyIdToken(idToken);
 };
 
-exports.createUserPayloadForJwt = async (uid) => {
+exports.createUserPayloadForJwt = async (decodedToken) => {
+  const { uid, email } = decodedToken;
+
   const userRef = usersRef.doc(uid);
 
   try {
@@ -21,7 +23,7 @@ exports.createUserPayloadForJwt = async (uid) => {
 
     return payload;
   } catch (err) {
-    throw err;
+    return { uid, email };
   }
 };
 
@@ -88,9 +90,12 @@ exports.storeNewRefreshToken = async (uid, refreshToken) => {
   const userRef = usersRef.doc(uid);
 
   try {
-    await userRef.update({
-      refresh_tokens: admin.firestore.FieldValue.arrayUnion(refreshToken),
-    });
+    await userRef.set(
+      {
+        refresh_tokens: admin.firestore.FieldValue.arrayUnion(refreshToken),
+      },
+      { merge: true }
+    );
   } catch (err) {
     throw err;
   }

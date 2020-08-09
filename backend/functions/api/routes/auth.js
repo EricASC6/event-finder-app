@@ -7,8 +7,6 @@ const authController = require("../controllers/auth");
 const firestore = admin.firestore();
 
 router.post("/login", async (req, res) => {
-  console.log({ body: req.body });
-
   // get id token from request body
   const { id_token } = req.body;
 
@@ -19,7 +17,11 @@ router.post("/login", async (req, res) => {
     const decodedToken = await authController.verifyIdToken(id_token);
     const { uid } = decodedToken;
 
-    const userPayload = await authController.createUserPayloadForJwt(uid);
+    const userPayload = await authController.createUserPayloadForJwt(
+      decodedToken
+    );
+    console.log({ decodedToken });
+
     const accessToken = await authController.createAccessTokenForUser(
       userPayload
     );
@@ -59,7 +61,9 @@ router.post("/token", async (req, res) => {
     if (!validToken) return res.status(400).json({ error: "Invalid Token" });
 
     const { uid } = validToken;
-    const userPayload = await authController.createUserPayloadForJwt(uid);
+    const userPayload = await authController.createUserPayloadForJwt(
+      validToken
+    );
     const newAccessToken = await authController.createAccessTokenForUser(
       userPayload
     );
