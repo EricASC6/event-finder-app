@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import EventCard from "./EventCard";
 
 const EventsList = ({
@@ -6,6 +6,8 @@ const EventsList = ({
   loading = false,
   error = null,
   events,
+  bookmarkEvent = () => {},
+  unbookmarkEvent = () => {},
 }) => {
   // console.log(events);
 
@@ -14,18 +16,19 @@ const EventsList = ({
   if (error) return <div>Error!!</div>;
 
   return (
-    <>
+    <Fragment>
       {events.map((event) => (
         <EventCard
           key={event.id}
           horizontal={horizontal}
           event={event}
           onBookmark={(event) => {
-            console.log(event);
+            if (!event.bookmarked) bookmarkEvent(event.id);
+            else unbookmarkEvent(event.id);
           }}
         />
       ))}
-    </>
+    </Fragment>
   );
 };
 

@@ -1,0 +1,251 @@
+/* Styles are similar to events but I got too lazy to revamp the styles */
+
+/* Venues Card */
+.card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-radius: 5px;
+}
+
+.image {
+  --width: 5.5rem;
+  --height: 5.5rem;
+  min-width: var(--width);
+  max-width: var(--width);
+  height: var(--height);
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.blankImage {
+  --width: 5.5rem;
+  --height: 5.5rem;
+  min-width: var(--width);
+  height: var(--height);
+  border-radius: 5px;
+  background: var(--light-white);
+  position: relative;
+}
+
+.blankImage::before {
+  content: "No Image";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--light-gray);
+  text-align: center;
+}
+
+.body {
+  padding: 0.75rem 0.5rem;
+  width: 100%;
+}
+
+.city {
+  color: var(--light-gray);
+  font-size: 0.75rem;
+  font-weight: normal;
+}
+
+.name {
+  font-size: 0.9rem;
+  padding-bottom: 0.25rem;
+  color: var(--black);
+}
+
+.upcomingEvents {
+  font-size: 0.75rem;
+  color: var(--main);
+  font-weight: 500;
+}
+/* Venue Cards */
+
+/* Venue Details */
+.detailsContainer {
+  padding-bottom: calc(var(--nav-height) + 25px);
+}
+
+.detailsImage {
+  width: 100%;
+  min-height: 10rem;
+}
+
+.detailsName {
+  font-size: 1.25rem;
+  color: var(--black);
+}
+
+.detailsContent {
+  color: var(--light-gray);
+  font-size: 0.85rem;
+  line-height: 165%;
+  padding: 0.5rem 0;
+}
+
+@media (min-width: 1024px) {
+  .mainDetailsContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.bottomContainer {
+  position: fixed;
+  height: var(--nav-height);
+  left: 0;
+  bottom: var(--nav-height);
+  width: 100%;
+  background: var(--white);
+  box-shadow: 0 -4px 4px 0 #b7b7b73a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.question {
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  background: var(--main);
+  color: var(--white);
+  font-weight: 400;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ratings {
+  font-size: 2rem;
+  color: var(--black);
+}
+
+.ratingsLabel {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--light-gray);
+}
+
+/* Venue Details */
+
+/* Review */
+.reviewerEmail {
+  color: var(--dark-gray);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.reviewerDate {
+  color: var(--light-gray);
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+}
+
+.reviewBox {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--light-gray);
+  padding: 1rem 0.75rem 1rem;
+  background: #fdfdfd;
+  border-radius: 5px;
+}
+/* Review */
+
+/* Review Breakdown */
+.breakdownBox {
+  padding: 1rem 0.75rem 1rem;
+  background: #fdfdfd;
+  border-radius: 5px;
+}
+
+.breakdownBox .breakdownGraph:last-child {
+  margin-bottom: 0;
+}
+
+.breakdownGraph {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.breakdownLabel {
+  font-size: 0.75rem;
+  color: var(--light-gray);
+  margin-right: 0.5rem;
+}
+
+.graphContainer {
+  position: relative;
+  padding: 0.75rem;
+  width: 100%;
+  background: #eeeeee;
+  flex: 3;
+  border-radius: 5px;
+}
+
+.graphBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--light-gray);
+  border-radius: 5px;
+}
+/* Review Breakdown */
+
+/* Review Modal */
+.reviewModal {
+  width: 250px;
+}
+
+@media (min-width: 425px) {
+  .reviewModal {
+    width: 300px;
+  }
+}
+
+@media (min-width: 768px) {
+  .reviewModal {
+    min-width: 350px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .reviewModal {
+    min-width: 500px;
+  }
+}
+
+.reviewForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.reviewInput {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem;
+  outline: none;
+  border: none;
+  background: #f3f3f3;
+  border-radius: 5px;
+  height: 10rem;
+  resize: none;
+  font-family: "Poppins", sans-serif;
+  color: var(--light-gray);
+}
+
+.reviewInput::placeholder {
+  font-family: "Poppins", sans-serif;
+}
+/* Review Modal */

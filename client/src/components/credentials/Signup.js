@@ -4,7 +4,7 @@ import FormField from "../general/FormField";
 import { ReactComponent as EmailIcon } from "../../icons/email.svg";
 import { ReactComponent as PasswordIcon } from "../../icons/password.svg";
 import ErrorContainer from "../general/ErrorContainer";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import GoogleOauthBtn from "./GoogleOauthBtn";
 import credentialsStyles from "../../styles/credentials.module.css";
 
@@ -12,14 +12,17 @@ const Signup = ({ signup, signInWithGoogle }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const history = useHistory();
 
   return (
     <Form
       onSubmit={() => {
-        signup(email, password).catch((err) => {
-          const { message } = err;
-          setError(message);
-        });
+        signup(email, password)
+          .then(() => history.push("/"))
+          .catch((err) => {
+            const { message } = err;
+            setError(message);
+          });
       }}
     >
       <FormField
@@ -49,7 +52,9 @@ const Signup = ({ signup, signInWithGoogle }) => {
         signUp
         onClick={(e) => {
           e.preventDefault();
-          signInWithGoogle().catch((err) => setError(err.message));
+          signInWithGoogle()
+            .then(() => history.push("/"))
+            .catch((err) => setError(err.message));
         }}
       />
     </Form>

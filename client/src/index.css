@@ -27,6 +27,12 @@ body {
   width: 100%;
 }
 
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -46,6 +52,24 @@ button {
 #root {
   width: 100%;
   height: 100%;
+}
+
+#modal-root {
+  position: fixed;
+  opacity: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease-in-out;
+}
+
+#modal-root.active {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.363);
+  pointer-events: all;
 }
 
 .App {

@@ -1,2 +1,4 @@
 functions/api/keys
 functions/api/serviceAccount.json
+# Local Netlify folder
+.netlify

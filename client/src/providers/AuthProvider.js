@@ -1,12 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import firebase from "../services/firebase";
-import {
-  fetchAccessToken,
-  storeAccessToken,
-  fetchAccessTokenFromIdToken,
-  deleteTokenAfterLogout,
-  getInitialAuthState,
-} from "../services/auth";
+import { AuthService } from "../services/auth";
+import { useHistory } from "react-router-dom";
 
 const auth = firebase.auth();
 
@@ -14,75 +9,39 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const [tokenLoading, setTokenLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     console.log("Mount");
 
-    const initAuth = async () => {
-      // check if user is initially authenticated
-      const user = await getInitialAuthState();
-      console.log({ user });
-      if (user) {
-        console.log({ id_token: await auth.currentUser.getIdToken() });
-        // if yes, get access token from server
-        const access_token = await fetchAccessToken();
-        console.log({ access_token });
+    AuthService.silentRefresh()
+      .catch(() => history.push("/login"))
+      .finally(() => setTokenLoading(false));
 
-        // if user is not authorized (no access token) sign out
-        if (!access_token) logout();
-
-        storeAccessToken(access_token);
-      }
-
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setLoading(true);
       setUser(user);
       setLoading(false);
-    };
+    });
 
-    initAuth();
-  }, []);
+    return () => unsubscribe();
+  }, [history]);
 
-  const jwtSignIn = async () => {
-    setLoading(true);
+  const signup = async (email, password) => AuthService.signup(email, password);
 
-    console.log("Signing in");
+  const login = async (email, password) => AuthService.login(email, password);
 
-    const currentUser = auth.currentUser;
-    const idToken = await currentUser.getIdToken();
-    const access_token = await fetchAccessTokenFromIdToken(idToken);
+  const logout = () => AuthService.logout();
 
-    console.log({ access_token });
-
-    storeAccessToken(access_token);
-    setUser(currentUser);
-
-    setLoading(false);
-  };
-
-  const jwtSignOut = async () => {
-    setLoading(true);
-    setUser(auth.currentUser);
-    await deleteTokenAfterLogout();
-    setLoading(false);
-  };
-
-  const signup = (email, password) =>
-    auth.createUserWithEmailAndPassword(email, password).then(jwtSignIn);
-
-  const login = (email, password) =>
-    auth.signInWithEmailAndPassword(email, password).then(jwtSignIn);
-
-  const logout = () => auth.signOut().then(jwtSignOut);
-
-  const signInWithGoogle = () => {
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
-    return auth.signInWithPopup(googleProvider).then(jwtSignIn);
-  };
+  const signInWithGoogle = () => AuthService.signInWithGoogle();
 
   return (
     <AuthContext.Provider
       value={{
         loading,
+        tokenLoading,
         user,
         signup,
         login,

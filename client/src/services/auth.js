@@ -1,50 +1,96 @@
 import firebase from "./firebase";
-import Http from "./http";
+import { TokenService } from "./token";
 
 const auth = firebase.auth();
-const http = new Http({ credentials: "include" });
 
-let token = null;
-
-export const storeAccessToken = (_token) => {
-  token = _token;
+const credentials = {
+  accessToken: null,
 };
 
-export const getAccessToken = () => token;
+// Token Service Subscription
+TokenService.subscribe((accessToken) => {
+  console.log("Token change");
+  console.log({ accessToken });
 
-export const fetchAccessToken = () => {
-  const tokenEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/token";
+  credentials.accessToken = accessToken;
+});
+// Token Service Subscription
 
-  return http
-    .post(tokenEndpoint)
-    .then((response) => response.data.access_token || null);
+const login = async (email, password) => {
+  try {
+    const userCredential = await auth.signInWithEmailAndPassword(
+      email,
+      password
+    );
+
+    const idToken = await userCredential.user.getIdToken();
+    const accessToken = await TokenService.fetchAccessTokenFromIdToken(idToken);
+
+    console.log({ accessToken });
+
+    return userCredential.user;
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const fetchAccessTokenFromIdToken = (idToken) => {
-  const tokenEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/login";
+const signup = async (email, password) => {
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    const idToken = await userCredential.user.getIdToken();
+    const accessToken = await TokenService.fetchAccessTokenFromIdToken(idToken);
 
-  return http
-    .post(tokenEndpoint, { id_token: idToken })
-    .then((response) => response.data.access_token || null);
+    console.log({ accessToken });
+    return userCredential.user;
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const deleteTokenAfterLogout = () => {
-  token = null;
+const signInWithGoogle = async () => {
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  return auth.signInWithPopup(googleProvider).then(async () => {
+    const user = firebase.auth().currentUser;
+    const idToken = await user.getIdToken();
+    const accessToken = await TokenService.fetchAccessTokenFromIdToken(idToken);
 
-  const logoutEndpoint =
-    "http://localhost:8888/.netlify/functions/api/auth/logout";
+    console.log({ accessToken });
 
-  return http.post(logoutEndpoint);
-};
-
-export const getInitialAuthState = () => {
-  return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      resolve(user);
-
-      unsubscribe();
-    });
+    return user;
   });
+};
+
+const silentRefresh = async () => {
+  try {
+    const accessToken = await TokenService.fetchAccessToken();
+
+    console.log({ accessToken });
+
+    if (!accessToken) throw new Error("Missing Access Token");
+
+    return accessToken;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const logout = async () => {
+  await Promise.all([
+    auth.signOut(),
+    TokenService.removeRefreshTokenAfterLogout(),
+  ]);
+
+  return;
+};
+
+export const AuthService = {
+  login,
+  signup,
+  silentRefresh,
+  logout,
+  signInWithGoogle,
+  credentials,
 };

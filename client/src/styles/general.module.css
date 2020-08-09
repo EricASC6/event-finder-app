@@ -161,7 +161,7 @@
 /* Form */
 .form {
   width: 100%;
-  max-width: 500px;
+  max-width: 425px;
 }
 
 .formField {
@@ -221,3 +221,22 @@
   z-index: 100;
 }
 /* Popup */
+
+/* Modal */
+.modal {
+  padding: 1rem;
+  border-radius: 5px;
+  background: var(--white);
+  box-shadow: 0 0 4px 0 #b7b7b74b;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  opacity: 0;
+  transition: opacity 250ms ease-in-out;
+}
+
+.modal.modalOpen {
+  opacity: 1;
+}
+/* Modal */

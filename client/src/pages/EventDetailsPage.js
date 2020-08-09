@@ -7,7 +7,18 @@ import eventStyles from "../styles/events.module.css";
 
 const EventDetailsPage = () => {
   const { id } = useParams();
-  const { loading, error, event } = useEvent(id);
+
+  const {
+    loading,
+    error,
+    event,
+    bookmarkEvent,
+    unbookmarkEvent,
+    addToCalendar,
+    removeFromCalendar,
+  } = useEvent(id);
+
+  console.log({ event });
 
   if (loading)
     return (
@@ -26,7 +37,17 @@ const EventDetailsPage = () => {
   return (
     <Page>
       <div className={eventStyles.detailsPage} id={event.id}>
-        <EventDetails event={event} />
+        <EventDetails
+          event={event}
+          onBookmark={(event) => {
+            if (!event.bookmarked) bookmarkEvent();
+            else unbookmarkEvent();
+          }}
+          onCalendarPress={(event) => {
+            if (!event.addedToCalendar) addToCalendar();
+            else removeFromCalendar();
+          }}
+        />
       </div>
     </Page>
   );

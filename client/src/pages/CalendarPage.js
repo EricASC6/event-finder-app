@@ -3,16 +3,19 @@ import Page from "../components/layout/Page";
 import Container from "../components/general/Container";
 import Title from "../components/basics/Title";
 import CalendarEventList from "../components/events/CalendarEventList";
-import { useEvents } from "../hooks/events.hook";
+import { useEventsOnCalendar } from "../hooks/events.hook";
+import eventsStyles from "../styles/events.module.css";
 
 const CalendarPage = () => {
-  const { loading, error, events } = useEvents();
+  const { loading, error, events } = useEventsOnCalendar();
 
   return (
     <Page>
       <Container>
         <Title>Calendar</Title>
-        <CalendarEventList loading={loading} error={error} events={events} />
+        <div className={eventsStyles.eventsListContainer}>
+          <CalendarEventList loading={loading} error={error} events={events} />
+        </div>
       </Container>
     </Page>
   );

@@ -4,11 +4,16 @@ import Category from "../general/Category";
 import Map from "../general/Map";
 import BackButton from "../general/BackButton";
 import { ReactComponent as BoomarkIcon } from "../../icons/bookmark.svg";
+import { ReactComponent as BoomarkFilledIcon } from "../../icons/bookmark-filled.svg";
 import { ReactComponent as CalendarPlusIcon } from "../../icons/calendar-plus.svg";
 import { ReactComponent as TicketIcon } from "../../icons/ticket.svg";
 import eventsStyles from "../../styles/events.module.css";
 
-const EventDetails = ({ event }) => {
+const EventDetails = ({
+  event,
+  onBookmark = () => {},
+  onCalendarPress = () => {},
+}) => {
   const {
     name,
     image,
@@ -19,12 +24,14 @@ const EventDetails = ({ event }) => {
     location,
     priceRanges,
     url,
+    bookmarked,
+    addedToCalendar,
   } = event;
 
   const { month, day, week } = date;
   const { startTime, endTime } = duration;
   const { address, city, coordinates } = location;
-  const { minPrice, maxPrice } = priceRanges;
+  const { minPrice = 0, maxPrice = 0 } = priceRanges;
 
   const eventMonth = month.toUpperCase();
   const durationInterval = `${startTime} - ${endTime}`;
@@ -47,7 +54,11 @@ const EventDetails = ({ event }) => {
             <h4 className={eventsStyles.city}>{city}</h4>
             <h2 className={eventsStyles.detailsName}>{name}</h2>
           </div>
-          <BoomarkIcon className={eventsStyles.bookmark} />
+          {bookmarked ? (
+            <BoomarkFilledIcon onClick={() => onBookmark(event)} />
+          ) : (
+            <BoomarkIcon onClick={() => onBookmark(event)} />
+          )}
         </div>
         <div className={eventsStyles.detailsBanner}>
           <div className={eventsStyles.detailsTime}>
@@ -60,8 +71,11 @@ const EventDetails = ({ event }) => {
               <p className={eventsStyles.detailsDuration}>{durationInterval}</p>
             </div>
           </div>
-          <button className={eventsStyles.calendarBtn}>
-            Add To Calendar{" "}
+          <button
+            className={eventsStyles.calendarBtn}
+            onClick={() => onCalendarPress(event)}
+          >
+            {!addedToCalendar ? "Add To" : "Remove From"}
             <CalendarPlusIcon className={eventsStyles.calendarIcon} />
           </button>
         </div>

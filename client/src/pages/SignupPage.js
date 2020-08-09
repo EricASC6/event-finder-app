@@ -11,9 +11,11 @@ const SignupPage = () => {
 
   return (
     <Container className={credentialsStyles.container}>
-      <Logo />
-      <Title>Sign Up</Title>
-      <Signup signup={signup} signInWithGoogle={signInWithGoogle} />
+      <div className={credentialsStyles.formContainer}>
+        <Logo />
+        <Title>Sign Up</Title>
+        <Signup signup={signup} signInWithGoogle={signInWithGoogle} />
+      </div>
     </Container>
   );
 };
